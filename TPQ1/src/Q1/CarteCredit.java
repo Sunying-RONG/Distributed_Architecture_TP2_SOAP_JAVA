@@ -3,12 +3,12 @@ package Q1;
 import java.util.Calendar;
 
 public class CarteCredit {
-	String carteNumero;
-	String cvcCode;
-	int expireMois; // 2 chiffres
-	int expireAnnee; // 4 chiffres
+	private String carteNumero;
+	private String cvcCode;
+	private int expireMois; // 2 chiffres
+	private int expireAnnee; // 4 chiffres
 	
-	Calendar current = Calendar.getInstance();
+	private Calendar current = Calendar.getInstance();
 
 	public CarteCredit(String carteNumero, String cvcCode, int expireMois, int expireAnnee) {
 		super();

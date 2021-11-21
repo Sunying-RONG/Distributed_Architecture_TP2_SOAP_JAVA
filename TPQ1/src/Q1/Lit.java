@@ -10,6 +10,22 @@ public class Lit {
 		this.capacite = capacite;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public int getCapacite() {
+		return capacite;
+	}
+
+	public void setCapacite(int capacite) {
+		this.capacite = capacite;
+	}
+
 	@Override
 	public String toString() {
 		return "Lit [type=" + type + ", capacite=" + capacite + "]";

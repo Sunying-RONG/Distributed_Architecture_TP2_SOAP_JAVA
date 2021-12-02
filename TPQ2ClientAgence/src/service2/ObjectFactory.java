@@ -24,8 +24,14 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _AddResponse_QNAME = new QName("http://service/", "addResponse");
-    private final static QName _Add_QNAME = new QName("http://service/", "add");
+    private final static QName _CreateCarteCredit_QNAME = new QName("http://service/", "createCarteCredit");
+    private final static QName _AgenceLoginResResponse_QNAME = new QName("http://service/", "agenceLoginResResponse");
+    private final static QName _CreateCarteCreditResponse_QNAME = new QName("http://service/", "createCarteCreditResponse");
+    private final static QName _ReserveResponse_QNAME = new QName("http://service/", "reserveResponse");
+    private final static QName _AgenceLoginRes_QNAME = new QName("http://service/", "agenceLoginRes");
+    private final static QName _CreateClient_QNAME = new QName("http://service/", "createClient");
+    private final static QName _CreateClientResponse_QNAME = new QName("http://service/", "createClientResponse");
+    private final static QName _Reserve_QNAME = new QName("http://service/", "reserve");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: service2
@@ -35,37 +41,203 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Add }
+     * Create an instance of {@link Agence }
      * 
      */
-    public Add createAdd() {
-        return new Add();
+    public Agence createAgence() {
+        return new Agence();
     }
 
     /**
-     * Create an instance of {@link AddResponse }
+     * Create an instance of {@link Agence.HotelPartenaireTarif }
      * 
      */
-    public AddResponse createAddResponse() {
-        return new AddResponse();
+    public Agence.HotelPartenaireTarif createAgenceHotelPartenaireTarif() {
+        return new Agence.HotelPartenaireTarif();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link AddResponse }{@code >}}
+     * Create an instance of {@link CreateClient }
      * 
      */
-    @XmlElementDecl(namespace = "http://service/", name = "addResponse")
-    public JAXBElement<AddResponse> createAddResponse(AddResponse value) {
-        return new JAXBElement<AddResponse>(_AddResponse_QNAME, AddResponse.class, null, value);
+    public CreateClient createCreateClient() {
+        return new CreateClient();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Add }{@code >}}
+     * Create an instance of {@link AgenceLoginRes }
      * 
      */
-    @XmlElementDecl(namespace = "http://service/", name = "add")
-    public JAXBElement<Add> createAdd(Add value) {
-        return new JAXBElement<Add>(_Add_QNAME, Add.class, null, value);
+    public AgenceLoginRes createAgenceLoginRes() {
+        return new AgenceLoginRes();
+    }
+
+    /**
+     * Create an instance of {@link AgenceLoginResResponse }
+     * 
+     */
+    public AgenceLoginResResponse createAgenceLoginResResponse() {
+        return new AgenceLoginResResponse();
+    }
+
+    /**
+     * Create an instance of {@link CreateCarteCreditResponse }
+     * 
+     */
+    public CreateCarteCreditResponse createCreateCarteCreditResponse() {
+        return new CreateCarteCreditResponse();
+    }
+
+    /**
+     * Create an instance of {@link ReserveResponse }
+     * 
+     */
+    public ReserveResponse createReserveResponse() {
+        return new ReserveResponse();
+    }
+
+    /**
+     * Create an instance of {@link CreateCarteCredit }
+     * 
+     */
+    public CreateCarteCredit createCreateCarteCredit() {
+        return new CreateCarteCredit();
+    }
+
+    /**
+     * Create an instance of {@link Reserve }
+     * 
+     */
+    public Reserve createReserve() {
+        return new Reserve();
+    }
+
+    /**
+     * Create an instance of {@link CreateClientResponse }
+     * 
+     */
+    public CreateClientResponse createCreateClientResponse() {
+        return new CreateClientResponse();
+    }
+
+    /**
+     * Create an instance of {@link Chambre }
+     * 
+     */
+    public Chambre createChambre() {
+        return new Chambre();
+    }
+
+    /**
+     * Create an instance of {@link Lit }
+     * 
+     */
+    public Lit createLit() {
+        return new Lit();
+    }
+
+    /**
+     * Create an instance of {@link CarteCredit }
+     * 
+     */
+    public CarteCredit createCarteCredit() {
+        return new CarteCredit();
+    }
+
+    /**
+     * Create an instance of {@link Hotel }
+     * 
+     */
+    public Hotel createHotel() {
+        return new Hotel();
+    }
+
+    /**
+     * Create an instance of {@link Client }
+     * 
+     */
+    public Client createClient() {
+        return new Client();
+    }
+
+    /**
+     * Create an instance of {@link Agence.HotelPartenaireTarif.Entry }
+     * 
+     */
+    public Agence.HotelPartenaireTarif.Entry createAgenceHotelPartenaireTarifEntry() {
+        return new Agence.HotelPartenaireTarif.Entry();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CreateCarteCredit }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service/", name = "createCarteCredit")
+    public JAXBElement<CreateCarteCredit> createCreateCarteCredit(CreateCarteCredit value) {
+        return new JAXBElement<CreateCarteCredit>(_CreateCarteCredit_QNAME, CreateCarteCredit.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AgenceLoginResResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service/", name = "agenceLoginResResponse")
+    public JAXBElement<AgenceLoginResResponse> createAgenceLoginResResponse(AgenceLoginResResponse value) {
+        return new JAXBElement<AgenceLoginResResponse>(_AgenceLoginResResponse_QNAME, AgenceLoginResResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CreateCarteCreditResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service/", name = "createCarteCreditResponse")
+    public JAXBElement<CreateCarteCreditResponse> createCreateCarteCreditResponse(CreateCarteCreditResponse value) {
+        return new JAXBElement<CreateCarteCreditResponse>(_CreateCarteCreditResponse_QNAME, CreateCarteCreditResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ReserveResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service/", name = "reserveResponse")
+    public JAXBElement<ReserveResponse> createReserveResponse(ReserveResponse value) {
+        return new JAXBElement<ReserveResponse>(_ReserveResponse_QNAME, ReserveResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AgenceLoginRes }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service/", name = "agenceLoginRes")
+    public JAXBElement<AgenceLoginRes> createAgenceLoginRes(AgenceLoginRes value) {
+        return new JAXBElement<AgenceLoginRes>(_AgenceLoginRes_QNAME, AgenceLoginRes.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CreateClient }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service/", name = "createClient")
+    public JAXBElement<CreateClient> createCreateClient(CreateClient value) {
+        return new JAXBElement<CreateClient>(_CreateClient_QNAME, CreateClient.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CreateClientResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service/", name = "createClientResponse")
+    public JAXBElement<CreateClientResponse> createCreateClientResponse(CreateClientResponse value) {
+        return new JAXBElement<CreateClientResponse>(_CreateClientResponse_QNAME, CreateClientResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Reserve }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service/", name = "reserve")
+    public JAXBElement<Reserve> createReserve(Reserve value) {
+        return new JAXBElement<Reserve>(_Reserve_QNAME, Reserve.class, null, value);
     }
 
 }

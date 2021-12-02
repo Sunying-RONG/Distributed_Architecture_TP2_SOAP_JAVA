@@ -5,15 +5,16 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Reservation {
-	private int reservationId;
+	private String reservationId;
 	private ArrayList<Chambre> chambreReserveCollection = new ArrayList<>();
 	private Calendar dateArrivee;
 	private Calendar dateDepart;
 	private Client client;
 	private double prix;
+	private Agence agence;
 	
-	public Reservation(int reservationId, ArrayList<Chambre> chambresReserve, Calendar dateArrivee, Calendar dateDepart,
-			Client client, double prix) {
+	public Reservation(String reservationId, ArrayList<Chambre> chambresReserve, Calendar dateArrivee, Calendar dateDepart,
+			Client client, double prix, Agence agence) {
 		super();
 		this.reservationId = reservationId;
 		this.chambreReserveCollection = chambresReserve;
@@ -21,13 +22,14 @@ public class Reservation {
 		this.dateDepart = dateDepart;
 		this.client = client;
 		this.prix = prix;
+		this.agence = agence;
 	}
 
-	public int getReservationId() {
+	public String getReservationId() {
 		return reservationId;
 	}
 
-	public void setReservationId(int reservationId) {
+	public void setReservationId(String reservationId) {
 		this.reservationId = reservationId;
 	}
 

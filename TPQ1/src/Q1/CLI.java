@@ -21,7 +21,6 @@ public class CLI {
 		IHotelRepo hotelCollection = new HotelRepoImpl();
 		
 		CLI main = new CLI();
-//		IHotelRepo proxy = new HotelRepoImpl();
 		BufferedReader inputReader;
 		String userInput = "";
 		
@@ -47,7 +46,6 @@ public class CLI {
 		builder.append("\n2. Afficher disponibilité de tous les hotels.");
 		builder.append("\n3. Faire une réservation.");
 		System.out.println(builder);
-		
 	}
 	
 	private void processUserInput(BufferedReader reader, 
@@ -114,6 +112,7 @@ public class CLI {
 					
 					if (hotelChambrePropose.size() == 0) {
 						System.err.println("Désolé, pas d'hôtel correspond. Veuillez réessayer.");
+						break;
 					} else {
 						System.out.println("Voici tous les propositions : ");
 						displayPropose(hotelChambrePropose, days);

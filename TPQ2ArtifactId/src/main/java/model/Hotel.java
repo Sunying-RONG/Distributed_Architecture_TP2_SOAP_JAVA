@@ -65,7 +65,7 @@ public class Hotel {
        int s = 0;
        for (Chambre x: partial) s += x.getChambreCapacite();
        if (s == target) {
-    	   System.out.println("proposition ("+Arrays.toString(partial.toArray())+")="+target);
+//    	   System.out.println("proposition ("+Arrays.toString(partial.toArray())+")="+target);
     	   this.groupPropose.add(partial);
        }
        if (s >= target) {
@@ -122,9 +122,10 @@ public class Hotel {
 		return prix*pourcentage;
 	}
 	
-	public void reserve(String reservationId, ArrayList<Chambre> chambreChoisi, 
+	public void reserve(Hotel hotel, String reservationId, ArrayList<Chambre> chambreChoisi, 
 			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence) {
-		Reservation res = new Reservation(reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
+		Reservation res = new Reservation(hotel, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
 		this.reservCollection.add(res);
+		agence.addReservation(res);
 	}
 }

@@ -70,8 +70,8 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 		ArrayList<Lit> litCollection2_4 = new ArrayList<>();
 		litCollection2_4.addAll(Arrays.asList(
 			new Lit("grand lit double", 2),
-			new Lit("lit simple", 1),
-			new Lit("lit simple", 1)
+			new Lit("lit superpose", 1),
+			new Lit("lit superpose", 1)
 		));
 		ArrayList<Chambre> chambreCollection2 = new ArrayList<>(); 
 		chambreCollection2.addAll(Arrays.asList(
@@ -121,7 +121,7 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 	@Override
 	public void reserve(Hotel hotelChoisi, String reservationId, ArrayList<Chambre> chambreChoisi, 
 			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence) {
-		hotelChoisi.reserve(reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
+		hotelChoisi.reserve(hotelChoisi, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
 	}
 
 	@Override

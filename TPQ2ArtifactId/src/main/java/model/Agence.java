@@ -8,16 +8,30 @@ public class Agence {
 	private String identifiant;
 	private String mdp;
 	private HashMap<Hotel, Double> hotelPartenaireTarif = new HashMap<>();
+	private ArrayList<Reservation> listReservation = new ArrayList<>();
 //	private double pourcentage;
 //	private ArrayList<Hotel> hotelPartenaire = new ArrayList<>();
 	
-	// identifiant et mot de passe d'agence est le meme pour acceder tous les hotels
+	
+	public Agence() {
+		super();
+	}
+	
+	// identifiant et mot de passe d'une agence est le meme pour acceder tous ces hotels partenaires
 	public Agence(String identifiant, String mdp) {
 		super();
 		this.identifiant = identifiant;
 		this.mdp = mdp;
 	}
-	
+
+	public ArrayList<Reservation> getListReservation() {
+		return listReservation;
+	}
+
+	public void setListReservation(ArrayList<Reservation> listReservation) {
+		this.listReservation = listReservation;
+	}
+
 	public String getIdentifiant() {
 		return identifiant;
 	}
@@ -61,7 +75,7 @@ public class Agence {
 		
 	public HashMapWrapper allCombinations(Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
 		HashMap<String, HashMap<Hotel, ArrayList<Chambre>>> allCombinations = new HashMap<String, HashMap<Hotel, ArrayList<Chambre>>>();
-		HashMap<Hotel, ArrayList<ArrayList<Chambre>>> allPropose = hotelChambrePropose(dateArrivee, dateDepart, nombrePerson);
+		HashMap<Hotel, ArrayList<ArrayList<Chambre>>> allPropose = this.hotelChambrePropose(dateArrivee, dateDepart, nombrePerson);
 		int i = 0;
 		for (Hotel hotel : allPropose.keySet()) {
 			for (ArrayList<Chambre> propose : allPropose.get(hotel)) {
@@ -75,6 +89,8 @@ public class Agence {
 		return hashMapWapper;
 	}
 	
-
+	public void addReservation(Reservation res) {
+		this.listReservation.add(res);
+	}
 	
 }

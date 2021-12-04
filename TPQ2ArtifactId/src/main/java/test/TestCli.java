@@ -1,25 +1,30 @@
-package main;
+package test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-import service1.Agence;
-import service1.Hotel;
-import service1.IHotelServiceWeb1;
-import service2.CarteCredit;
-import service2.Chambre;
-import service2.Client;
-import service2.IHotelServiceWeb2;
-import service2.Lit;
+import model.Agence;
+import model.Hotel;
+import service.HotelServiceWeb1Impl;
+import service.HotelServiceWeb2Impl;
+import service.IHotelServiceWeb1;
+import model.CarteCredit;
+import model.Chambre;
+import model.Client;
+import service.IHotelServiceWeb2;
+import model.Lit;
 
-public class HotelServiceClientCLI {
+public class TestCli {
 	public static final String QUIT = "0";
 	public static StringToCalendar inputStringToCalendar;
 	public static StringToDouble inputStringToDouble;
@@ -27,16 +32,19 @@ public class HotelServiceClientCLI {
 	
 	public static void main(String[] args) throws MalformedURLException {
 		// TODO Auto-generated method stub
-		URL url1 = new URL("http://localhost:8080/serviceweb1?wsdl");
-		URL url2 = new URL("http://localhost:8080/serviceweb2?wsdl");
+//		URL url1 = new URL("http://localhost:8080/serviceweb1?wsdl");
+//		URL url2 = new URL("http://localhost:8080/serviceweb2?wsdl");
 		
-		service1.HotelServiceWeb1ImplService hotelServiceWeb1Impl = new service1.HotelServiceWeb1ImplService(url1);
-		service1.IHotelServiceWeb1 proxy1 = hotelServiceWeb1Impl.getHotelServiceWeb1ImplPort();
+//		service1.HotelServiceWeb1ImplService hotelServiceWeb1Impl = new service1.HotelServiceWeb1ImplService(url1);
+//		service1.IHotelServiceWeb1 proxy1 = hotelServiceWeb1Impl.getHotelServiceWeb1ImplPort();
+//		
+//		service2.HotelServiceWeb2ImplService hotelServiceWeb2Impl = new service2.HotelServiceWeb2ImplService(url2);
+//		service2.IHotelServiceWeb2 proxy2 = hotelServiceWeb2Impl.getHotelServiceWeb2ImplPort();
 		
-		service2.HotelServiceWeb2ImplService hotelServiceWeb2Impl = new service2.HotelServiceWeb2ImplService(url2);
-		service2.IHotelServiceWeb2 proxy2 = hotelServiceWeb2Impl.getHotelServiceWeb2ImplPort();
-		
-		HotelServiceClientCLI main = new HotelServiceClientCLI();
+		HotelServiceWeb1Impl proxy1 = new HotelServiceWeb1Impl();
+		HotelServiceWeb2Impl proxy2 = new HotelServiceWeb2Impl();
+
+		TestCli main = new TestCli();
 		BufferedReader inputReader;
 		String userInput = "";
 		
@@ -74,7 +82,7 @@ public class HotelServiceClientCLI {
 					Agence agenceLogin = this.login(reader, proxy1);
 					System.out.print("##"+agenceLogin.getIdentifiant());
 					while (agenceLogin == null) {
-						System.err.println("Identifiant ou mot de passe n'est pas correct, veuillez réessayer !");
+						System.err.println("Identifiant ou mot de passe n'est pas correct, veuillez réessayer !\n");
 						agenceLogin = this.login(reader, proxy1);
 					}
 					System.out.println(proxy1.getAgenceIdentifiant(agenceLogin)+" login avec succès !");
@@ -133,9 +141,15 @@ public class HotelServiceClientCLI {
 						
 						System.out.println("Offre "+identifiantChoisi+" est choisi.");
 						// Agence login
-						service2.Agence agenceLoginRes = this.loginRes(reader, proxy2);
-						while (agenceLoginRes != null || !agenceLoginRes.equals(agenceLogin)) {
-							System.err.println("Identifiant ou mot de passe n'est pas correct, veuillez réessayer !");
+						Agence agenceLoginRes = this.loginRes(reader, proxy2);
+						System.err.println(agenceLoginRes.getIdentifiant() + " " + agenceLoginRes.getMdp());
+						System.err.println(agenceLoginRes.toString());
+						System.err.println(agenceLogin.toString());
+
+						while (agenceLoginRes == null || 
+								!agenceLoginRes.getIdentifiant().equals(agenceLogin.getIdentifiant()) ||
+								!agenceLoginRes.getMdp().equals(agenceLogin.getMdp())) {
+							System.err.println("Identifiant ou mot de passe n'est pas correct, veuillez réessayer !\n");
 							agenceLoginRes = this.loginRes(reader, proxy2);
 						}
 						System.out.println(proxy1.getAgenceIdentifiant(agenceLogin)+" login avec succès !");
@@ -171,10 +185,12 @@ public class HotelServiceClientCLI {
 						Client client = proxy2.createClient(nom, prenom, carteCredit);
 //						Client client = new Client(nom, prenom, carteCredit);
 						
+						String reservationId = this.generateResId(agenceLoginRes, hotelChoisi, client);
+						reservationId = reservationId.replaceAll("\\s+","");
 						try {
-							proxy2.reserve(hotelChoisi, identifiantChoisi, chambreChoisi, 
+							proxy2.reserve(hotelChoisi, reservationId, chambreChoisi, 
 									dateArrivee, dateDepart, client, prixChoisi, agenceLoginRes);
-							System.out.println("Réservé avec succès. Votre numéro de réservation est "+identifiantChoisi);
+							System.out.println("Réservé avec succès. Votre numéro de réservation est "+reservationId);
 						} catch (Exception e) {
 							System.err.println("Désolé, il y a un problème avec la réservation. Veuillez réessayer.");
 							break;
@@ -202,13 +218,24 @@ public class HotelServiceClientCLI {
 				}
 			}
 			System.out.println(
-					"Identifiant de l'offre : " + offre +
+					"Identifiant de l'offre : " + offre + "\n" +
 					"Nom de l'hôtel : " + proxy1.getHotelNom(hotel) + "\n" +
 					"Nombre de lits proposés : " + nombreLits + "\n" + descLit +
-					"Date de disponibilité : de " + dateArrivee + " à " + dateDepart + 
-					"Prix total à payer : " + proxy1.prixChoisi(hotel, chambres, agenceLogin, days) + " (Pour " + days + " nuits)" + "\n"
+					"Date de disponibilité : de " + this.calendarToString(dateArrivee) + " à " + this.calendarToString(dateDepart) + "\n" +
+					"Prix total à payer : " + this.doubleToString(proxy1.prixChoisi(hotel, chambres, agenceLogin, days)) + " (avec pourcentage de commission)" + " (Pour " + days + " nuits)" + "\n"
 			);
 		}
+	}
+	
+	private String calendarToString(Calendar date) {
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+        String dateString = format1.format(date.getTime());
+        return dateString;
+	}
+	
+	private String doubleToString(double prix) {
+		DecimalFormat df = new DecimalFormat("0.00");
+		return df.format(prix);
 	}
 		
 	private static int daysBetween(Calendar dateArrivee, Calendar dateDepart) {
@@ -233,11 +260,11 @@ public class HotelServiceClientCLI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.err.println("in login");
+//		System.err.println("in login");
 		return proxy1.agenceLogin(identifiant, mdp);
 	}
 	
-	private service2.Agence loginRes(BufferedReader reader, IHotelServiceWeb2 proxy2) {
+	private Agence loginRes(BufferedReader reader, IHotelServiceWeb2 proxy2) {
 		String identifiant = null;
 		String mdp = null;
 		try {
@@ -257,6 +284,12 @@ public class HotelServiceClientCLI {
 		return proxy2.agenceLoginRes(identifiant, mdp);
 	}
 	
+	private String generateResId(Agence agence, Hotel hotel, Client client) {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String reservationId = agence.getIdentifiant()+hotel.getNom()+client.getNom()+timestamp.getTime();
+		return reservationId;
+	}
+	
 	private static HashMap<String, HashMap<Hotel, ArrayList<Chambre>>> getPropose(
 			HashMap<String, HashMap<Hotel, ArrayList<Chambre>>> allCombinations, String identifiantOffre) {
 		HashMap<String, HashMap<Hotel, ArrayList<Chambre>>> offreChoisi = new HashMap<String, HashMap<Hotel, ArrayList<Chambre>>>();
@@ -267,5 +300,7 @@ public class HotelServiceClientCLI {
 		}
 		return offreChoisi;
 	}
+	
+
 	
 }

@@ -28,6 +28,7 @@ public class ObjectFactory {
     private final static QName _AgenceLogin_QNAME = new QName("http://service/", "agenceLogin");
     private final static QName _PrixChoisi_QNAME = new QName("http://service/", "prixChoisi");
     private final static QName _AgenceLoginResponse_QNAME = new QName("http://service/", "agenceLoginResponse");
+    private final static QName _DescResponse_QNAME = new QName("http://service/", "descResponse");
     private final static QName _DownloadImageResponse_QNAME = new QName("http://service/", "downloadImageResponse");
     private final static QName _GetAllCombinationsResponse_QNAME = new QName("http://service/", "getAllCombinationsResponse");
     private final static QName _GetHotelNom_QNAME = new QName("http://service/", "getHotelNom");
@@ -35,6 +36,7 @@ public class ObjectFactory {
     private final static QName _GetAgenceIdentifiant_QNAME = new QName("http://service/", "getAgenceIdentifiant");
     private final static QName _GetAgencePartenaire_QNAME = new QName("http://service/", "getAgencePartenaire");
     private final static QName _GetAllCombinations_QNAME = new QName("http://service/", "getAllCombinations");
+    private final static QName _Desc_QNAME = new QName("http://service/", "desc");
     private final static QName _DownloadImage_QNAME = new QName("http://service/", "downloadImage");
     private final static QName _GetAgenceIdentifiantResponse_QNAME = new QName("http://service/", "getAgenceIdentifiantResponse");
     private final static QName _GetAgencePartenaireResponse_QNAME = new QName("http://service/", "getAgencePartenaireResponse");
@@ -127,6 +129,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DescResponse }
+     * 
+     */
+    public DescResponse createDescResponse() {
+        return new DescResponse();
+    }
+
+    /**
      * Create an instance of {@link DownloadImageResponse }
      * 
      */
@@ -156,6 +166,14 @@ public class ObjectFactory {
      */
     public DownloadImage createDownloadImage() {
         return new DownloadImage();
+    }
+
+    /**
+     * Create an instance of {@link Desc }
+     * 
+     */
+    public Desc createDesc() {
+        return new Desc();
     }
 
     /**
@@ -259,6 +277,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DescResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service/", name = "descResponse")
+    public JAXBElement<DescResponse> createDescResponse(DescResponse value) {
+        return new JAXBElement<DescResponse>(_DescResponse_QNAME, DescResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link DownloadImageResponse }{@code >}}
      * 
      */
@@ -319,6 +346,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://service/", name = "getAllCombinations")
     public JAXBElement<GetAllCombinations> createGetAllCombinations(GetAllCombinations value) {
         return new JAXBElement<GetAllCombinations>(_GetAllCombinations_QNAME, GetAllCombinations.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Desc }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service/", name = "desc")
+    public JAXBElement<Desc> createDesc(Desc value) {
+        return new JAXBElement<Desc>(_Desc_QNAME, Desc.class, null, value);
     }
 
     /**

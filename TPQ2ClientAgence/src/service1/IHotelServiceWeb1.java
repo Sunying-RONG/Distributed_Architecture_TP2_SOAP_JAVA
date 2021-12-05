@@ -149,4 +149,19 @@ public interface IHotelServiceWeb1 {
         @WebParam(name = "arg0", targetNamespace = "")
         Agence arg0);
 
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "desc", targetNamespace = "http://service/", className = "service1.Desc")
+    @ResponseWrapper(localName = "descResponse", targetNamespace = "http://service/", className = "service1.DescResponse")
+    @Action(input = "http://service/IHotelServiceWeb1/descRequest", output = "http://service/IHotelServiceWeb1/descResponse")
+    public String desc(
+        @WebParam(name = "arg0", targetNamespace = "")
+        Lit arg0);
+
 }

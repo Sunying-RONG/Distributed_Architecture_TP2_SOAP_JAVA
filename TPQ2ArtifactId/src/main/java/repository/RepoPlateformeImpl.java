@@ -155,7 +155,12 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 		List<HotelPartenaireTarif> listP = agenceLogin.getHotelPartenaireTarif();
 		return listP;
 	}
-
+	
+	@Override
+	public String getLitDesc(Lit lit) {
+		return lit.toString();
+	}
+	
 //	@Override
 //	public List<String> getTest(Calendar cal1, Calendar cal2) {
 //		List<String> test = new ArrayList<>();

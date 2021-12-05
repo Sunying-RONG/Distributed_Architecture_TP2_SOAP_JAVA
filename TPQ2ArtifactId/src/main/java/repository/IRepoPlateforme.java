@@ -12,6 +12,7 @@ import model.Client;
 import model.Employee;
 import model.Propose;
 import model.HotelPartenaireTarif;
+import model.Lit;
 
 public interface IRepoPlateforme {
 	/* METHODS */
@@ -34,6 +35,8 @@ public interface IRepoPlateforme {
 	Client createClient(String nom, String prenom, CarteCredit carteCredit);
 	
 	List<HotelPartenaireTarif> getAgencePartenaire(Agence agenceLogin);
+	
+	String getLitDesc(Lit lit);
 	
 //	List<String> getTest(Calendar cal1, Calendar cal2);
 }

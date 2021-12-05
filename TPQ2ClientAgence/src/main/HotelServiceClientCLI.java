@@ -227,7 +227,7 @@ public class HotelServiceClientCLI {
 						"#Chambre Id : " + c.getChambreId()
 				);
 				for (Lit lit : c.getLitCollection()) {
-					descLit = descLit + lit.toString() + "\n";
+					descLit = descLit + proxy1.desc(lit) + "\n";
 					nombreLits++;
 				}
 				System.out.println(

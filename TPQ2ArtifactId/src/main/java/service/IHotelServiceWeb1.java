@@ -12,6 +12,7 @@ import javax.jws.soap.SOAPBinding.Style;
 import model.Agence;
 import model.Employee;
 import model.HotelPartenaireTarif;
+import model.Lit;
 import model.Propose;
 
 @WebService
@@ -38,6 +39,9 @@ public interface IHotelServiceWeb1 {
 	
 	@WebMethod
 	List<HotelPartenaireTarif> getAgencePartenaire(Agence agenceLogin);
+	
+	@WebMethod
+	String desc(Lit lit);
 	
 //	@WebMethod
 //	List<String> getTest(Calendar cal1, Calendar cal2);

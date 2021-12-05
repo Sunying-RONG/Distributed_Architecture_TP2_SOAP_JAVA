@@ -13,6 +13,7 @@ import javax.xml.ws.soap.MTOM;
 import model.Agence;
 import model.Employee;
 import model.HotelPartenaireTarif;
+import model.Lit;
 import model.Propose;
 import repository.IRepoPlateforme;
 import repository.RepoPlateformeImpl;
@@ -64,6 +65,11 @@ public class HotelServiceWeb1Impl implements IHotelServiceWeb1 {
 	@Override
 	public List<HotelPartenaireTarif> getAgencePartenaire(Agence agenceLogin) {
 		return repoPlateformeImpl.getAgencePartenaire(agenceLogin);
+	}
+	
+	@Override
+	public String desc(Lit lit) {
+		return repoPlateformeImpl.getLitDesc(lit);
 	}
 	
 //	@Override

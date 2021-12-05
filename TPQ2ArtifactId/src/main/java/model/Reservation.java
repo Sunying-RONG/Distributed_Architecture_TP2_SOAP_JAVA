@@ -5,21 +5,26 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Reservation {
-	private Hotel hotel;
+	private HotelPartenaireTarif hotelPartenaireTarif;
 	private String reservationId;
-	private ArrayList<Chambre> chambreReserveCollection = new ArrayList<>();
+	private Chambre[] chambreReserveCollection;
 	private Calendar dateArrivee;
 	private Calendar dateDepart;
 	private Client client;
 	private double prix;
 	private Agence agence;
 	
-	public Reservation(Hotel hotel, String reservationId, ArrayList<Chambre> chambresReserve, Calendar dateArrivee, Calendar dateDepart,
+	public Reservation() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Reservation(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, Chambre[] chambreChoisi, Calendar dateArrivee, Calendar dateDepart,
 			Client client, double prix, Agence agence) {
 		super();
-		this.hotel = hotel;
+		this.hotelPartenaireTarif = hotelPartenaireTarif;
 		this.reservationId = reservationId;
-		this.chambreReserveCollection = chambresReserve;
+		this.chambreReserveCollection = chambreChoisi;
 		this.dateArrivee = dateArrivee;
 		this.dateDepart = dateDepart;
 		this.client = client;
@@ -27,12 +32,12 @@ public class Reservation {
 		this.agence = agence;
 	}
 
-	public Hotel getHotel() {
-		return hotel;
+	public HotelPartenaireTarif getHotel() {
+		return hotelPartenaireTarif;
 	}
 
-	public void setHotel(Hotel hotel) {
-		this.hotel = hotel;
+	public void setHotelPartenaireTarif(HotelPartenaireTarif hotelPartenaireTarif) {
+		this.hotelPartenaireTarif = hotelPartenaireTarif;
 	}
 
 	public double getPrix() {
@@ -59,11 +64,11 @@ public class Reservation {
 		this.reservationId = reservationId;
 	}
 
-	public List<Chambre> getChambreReserveCollection() {
+	public Chambre[] getChambreReserveCollection() {
 		return chambreReserveCollection;
 	}
 
-	public void setChambreReserveCollection(ArrayList<Chambre> chambreReserveCollection) {
+	public void setChambreReserveCollection(Chambre[] chambreReserveCollection) {
 		this.chambreReserveCollection = chambreReserveCollection;
 	}
 

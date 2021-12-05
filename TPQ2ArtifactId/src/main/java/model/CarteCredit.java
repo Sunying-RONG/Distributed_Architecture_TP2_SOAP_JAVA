@@ -10,6 +10,11 @@ public class CarteCredit {
 	
 	private Calendar current = Calendar.getInstance();
 
+	public CarteCredit() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public CarteCredit(String carteNumero, String cvcCode, int expireMois, int expireAnnee) {
 		super();
 		this.setCarteNumero(carteNumero);

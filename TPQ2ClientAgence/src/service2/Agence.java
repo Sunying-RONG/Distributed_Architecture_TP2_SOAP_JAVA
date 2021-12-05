@@ -19,29 +19,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="hotelPartenaireTarif">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="entry" maxOccurs="unbounded" minOccurs="0">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;sequence>
- *                             &lt;element name="key" type="{http://service/}hotel" minOccurs="0"/>
- *                             &lt;element name="value" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
- *                           &lt;/sequence>
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
+ *         &lt;element name="hotelPartenaireTarif" type="{http://service/}hotelPartenaireTarif" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="identifiant" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="listReservation" type="{http://service/}reservation" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="mdp" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -55,37 +35,45 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "agence", propOrder = {
     "hotelPartenaireTarif",
     "identifiant",
+    "listReservation",
     "mdp"
 })
 public class Agence {
 
-    @XmlElement(required = true)
-    protected Agence.HotelPartenaireTarif hotelPartenaireTarif;
+    @XmlElement(nillable = true)
+    protected List<HotelPartenaireTarif> hotelPartenaireTarif;
     protected String identifiant;
+    @XmlElement(nillable = true)
+    protected List<Reservation> listReservation;
     protected String mdp;
 
     /**
      * Gets the value of the hotelPartenaireTarif property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Agence.HotelPartenaireTarif }
-     *     
-     */
-    public Agence.HotelPartenaireTarif getHotelPartenaireTarif() {
-        return hotelPartenaireTarif;
-    }
-
-    /**
-     * Sets the value of the hotelPartenaireTarif property.
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the hotelPartenaireTarif property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link Agence.HotelPartenaireTarif }
-     *     
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getHotelPartenaireTarif().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link HotelPartenaireTarif }
+     * 
+     * 
      */
-    public void setHotelPartenaireTarif(Agence.HotelPartenaireTarif value) {
-        this.hotelPartenaireTarif = value;
+    public List<HotelPartenaireTarif> getHotelPartenaireTarif() {
+        if (hotelPartenaireTarif == null) {
+            hotelPartenaireTarif = new ArrayList<HotelPartenaireTarif>();
+        }
+        return this.hotelPartenaireTarif;
     }
 
     /**
@@ -113,6 +101,35 @@ public class Agence {
     }
 
     /**
+     * Gets the value of the listReservation property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the listReservation property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getListReservation().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Reservation }
+     * 
+     * 
+     */
+    public List<Reservation> getListReservation() {
+        if (listReservation == null) {
+            listReservation = new ArrayList<Reservation>();
+        }
+        return this.listReservation;
+    }
+
+    /**
      * Gets the value of the mdp property.
      * 
      * @return
@@ -134,157 +151,6 @@ public class Agence {
      */
     public void setMdp(String value) {
         this.mdp = value;
-    }
-
-
-    /**
-     * <p>Java class for anonymous complex type.
-     * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *         &lt;element name="entry" maxOccurs="unbounded" minOccurs="0">
-     *           &lt;complexType>
-     *             &lt;complexContent>
-     *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *                 &lt;sequence>
-     *                   &lt;element name="key" type="{http://service/}hotel" minOccurs="0"/>
-     *                   &lt;element name="value" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
-     *                 &lt;/sequence>
-     *               &lt;/restriction>
-     *             &lt;/complexContent>
-     *           &lt;/complexType>
-     *         &lt;/element>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "entry"
-    })
-    public static class HotelPartenaireTarif {
-
-        protected List<Agence.HotelPartenaireTarif.Entry> entry;
-
-        /**
-         * Gets the value of the entry property.
-         * 
-         * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the entry property.
-         * 
-         * <p>
-         * For example, to add a new item, do as follows:
-         * <pre>
-         *    getEntry().add(newItem);
-         * </pre>
-         * 
-         * 
-         * <p>
-         * Objects of the following type(s) are allowed in the list
-         * {@link Agence.HotelPartenaireTarif.Entry }
-         * 
-         * 
-         */
-        public List<Agence.HotelPartenaireTarif.Entry> getEntry() {
-            if (entry == null) {
-                entry = new ArrayList<Agence.HotelPartenaireTarif.Entry>();
-            }
-            return this.entry;
-        }
-
-
-        /**
-         * <p>Java class for anonymous complex type.
-         * 
-         * <p>The following schema fragment specifies the expected content contained within this class.
-         * 
-         * <pre>
-         * &lt;complexType>
-         *   &lt;complexContent>
-         *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-         *       &lt;sequence>
-         *         &lt;element name="key" type="{http://service/}hotel" minOccurs="0"/>
-         *         &lt;element name="value" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
-         *       &lt;/sequence>
-         *     &lt;/restriction>
-         *   &lt;/complexContent>
-         * &lt;/complexType>
-         * </pre>
-         * 
-         * 
-         */
-        @XmlAccessorType(XmlAccessType.FIELD)
-        @XmlType(name = "", propOrder = {
-            "key",
-            "value"
-        })
-        public static class Entry {
-
-            protected Hotel key;
-            protected Double value;
-
-            /**
-             * Gets the value of the key property.
-             * 
-             * @return
-             *     possible object is
-             *     {@link Hotel }
-             *     
-             */
-            public Hotel getKey() {
-                return key;
-            }
-
-            /**
-             * Sets the value of the key property.
-             * 
-             * @param value
-             *     allowed object is
-             *     {@link Hotel }
-             *     
-             */
-            public void setKey(Hotel value) {
-                this.key = value;
-            }
-
-            /**
-             * Gets the value of the value property.
-             * 
-             * @return
-             *     possible object is
-             *     {@link Double }
-             *     
-             */
-            public Double getValue() {
-                return value;
-            }
-
-            /**
-             * Sets the value of the value property.
-             * 
-             * @param value
-             *     allowed object is
-             *     {@link Double }
-             *     
-             */
-            public void setValue(Double value) {
-                this.value = value;
-            }
-
-        }
-
     }
 
 }

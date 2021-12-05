@@ -1,6 +1,5 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.jws.WebMethod;
@@ -10,7 +9,7 @@ import model.Agence;
 import model.CarteCredit;
 import model.Chambre;
 import model.Client;
-import model.Hotel;
+import model.HotelPartenaireTarif;
 
 @WebService
 public interface IHotelServiceWeb2 {
@@ -18,7 +17,7 @@ public interface IHotelServiceWeb2 {
 	Agence agenceLoginRes(String identifiant, String mdp);
 	
 	@WebMethod
-	void reserve(Hotel hotelChoisi, String reservationId, ArrayList<Chambre> chambreChoisi, 
+	void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, Chambre[] chambreChoisi, 
 			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence);
 	
 	@WebMethod

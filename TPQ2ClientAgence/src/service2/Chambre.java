@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="chambreId" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="chambreId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="litCollection" type="{http://service/}lit" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="prix" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *       &lt;/sequence>
@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class Chambre {
 
-    protected int chambreId;
+    protected String chambreId;
     @XmlElement(nillable = true)
     protected List<Lit> litCollection;
     protected double prix;
@@ -46,16 +46,24 @@ public class Chambre {
     /**
      * Gets the value of the chambreId property.
      * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public int getChambreId() {
+    public String getChambreId() {
         return chambreId;
     }
 
     /**
      * Sets the value of the chambreId property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setChambreId(int value) {
+    public void setChambreId(String value) {
         this.chambreId = value;
     }
 

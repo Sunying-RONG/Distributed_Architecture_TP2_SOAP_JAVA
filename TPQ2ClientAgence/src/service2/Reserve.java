@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -20,7 +21,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="arg0" type="{http://service/}hotel" minOccurs="0"/>
+ *         &lt;element name="arg0" type="{http://service/}hotelPartenaireTarif" minOccurs="0"/>
  *         &lt;element name="arg1" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="arg2" type="{http://service/}chambre" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="arg3" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
@@ -49,8 +50,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 })
 public class Reserve {
 
-    protected Hotel arg0;
+    protected HotelPartenaireTarif arg0;
     protected String arg1;
+    @XmlElement(nillable = true)
     protected List<Chambre> arg2;
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar arg3;
@@ -65,10 +67,10 @@ public class Reserve {
      * 
      * @return
      *     possible object is
-     *     {@link Hotel }
+     *     {@link HotelPartenaireTarif }
      *     
      */
-    public Hotel getArg0() {
+    public HotelPartenaireTarif getArg0() {
         return arg0;
     }
 
@@ -77,10 +79,10 @@ public class Reserve {
      * 
      * @param value
      *     allowed object is
-     *     {@link Hotel }
+     *     {@link HotelPartenaireTarif }
      *     
      */
-    public void setArg0(Hotel value) {
+    public void setArg0(HotelPartenaireTarif value) {
         this.arg0 = value;
     }
 

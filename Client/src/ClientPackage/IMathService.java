@@ -5,10 +5,8 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.Action;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
 
 
 /**
@@ -18,9 +16,7 @@ import javax.xml.ws.ResponseWrapper;
  * 
  */
 @WebService(name = "IMathService", targetNamespace = "http://ServerPackage/")
-@XmlSeeAlso({
-    ObjectFactory.class
-})
+@SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface IMathService {
 
 
@@ -32,15 +28,26 @@ public interface IMathService {
      *     returns int
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "subtract", targetNamespace = "http://ServerPackage/", className = "ClientPackage.Subtract")
-    @ResponseWrapper(localName = "subtractResponse", targetNamespace = "http://ServerPackage/", className = "ClientPackage.SubtractResponse")
+    @WebResult(partName = "return")
     @Action(input = "http://ServerPackage/IMathService/subtractRequest", output = "http://ServerPackage/IMathService/subtractResponse")
     public int subtract(
-        @WebParam(name = "arg0", targetNamespace = "")
+        @WebParam(name = "arg0", partName = "arg0")
         int arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
+        @WebParam(name = "arg1", partName = "arg1")
         int arg1);
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns byte[]
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://ServerPackage/IMathService/downloadImageRequest", output = "http://ServerPackage/IMathService/downloadImageResponse")
+    public byte[] downloadImage(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0);
 
     /**
      * 
@@ -50,32 +57,12 @@ public interface IMathService {
      *     returns int
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "multiply", targetNamespace = "http://ServerPackage/", className = "ClientPackage.Multiply")
-    @ResponseWrapper(localName = "multiplyResponse", targetNamespace = "http://ServerPackage/", className = "ClientPackage.MultiplyResponse")
-    @Action(input = "http://ServerPackage/IMathService/multiplyRequest", output = "http://ServerPackage/IMathService/multiplyResponse")
-    public int multiply(
-        @WebParam(name = "arg0", targetNamespace = "")
-        int arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        int arg1);
-
-    /**
-     * 
-     * @param arg1
-     * @param arg0
-     * @return
-     *     returns int
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "add", targetNamespace = "http://ServerPackage/", className = "ClientPackage.Add")
-    @ResponseWrapper(localName = "addResponse", targetNamespace = "http://ServerPackage/", className = "ClientPackage.AddResponse")
+    @WebResult(partName = "return")
     @Action(input = "http://ServerPackage/IMathService/addRequest", output = "http://ServerPackage/IMathService/addResponse")
     public int add(
-        @WebParam(name = "arg0", targetNamespace = "")
+        @WebParam(name = "arg0", partName = "arg0")
         int arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
+        @WebParam(name = "arg1", partName = "arg1")
         int arg1);
 
     /**
@@ -86,14 +73,28 @@ public interface IMathService {
      *     returns int
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "divide", targetNamespace = "http://ServerPackage/", className = "ClientPackage.Divide")
-    @ResponseWrapper(localName = "divideResponse", targetNamespace = "http://ServerPackage/", className = "ClientPackage.DivideResponse")
+    @WebResult(partName = "return")
     @Action(input = "http://ServerPackage/IMathService/divideRequest", output = "http://ServerPackage/IMathService/divideResponse")
     public int divide(
-        @WebParam(name = "arg0", targetNamespace = "")
+        @WebParam(name = "arg0", partName = "arg0")
         int arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
+        @WebParam(name = "arg1", partName = "arg1")
+        int arg1);
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://ServerPackage/IMathService/multiplyRequest", output = "http://ServerPackage/IMathService/multiplyResponse")
+    public int multiply(
+        @WebParam(name = "arg0", partName = "arg0")
+        int arg0,
+        @WebParam(name = "arg1", partName = "arg1")
         int arg1);
 
 }

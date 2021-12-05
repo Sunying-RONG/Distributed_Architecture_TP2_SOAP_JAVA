@@ -5,6 +5,10 @@ public class Client {
 	private String prenom;
 	private CarteCredit carteCredit;
 	
+	public Client() {
+		super();
+	}
+
 	public Client(String nom, String prenom, CarteCredit carteCredit) {
 		super();
 		this.nom = nom;

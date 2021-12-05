@@ -1,8 +1,6 @@
 package repository;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
 import exceptions.HotelAlreadyExistsException;
 import exceptions.HotelNotFoundException;
@@ -10,8 +8,8 @@ import model.Agence;
 import model.CarteCredit;
 import model.Chambre;
 import model.Client;
-import model.HashMapWrapper;
-import model.Hotel;
+import model.Propose;
+import model.HotelPartenaireTarif;
 
 public interface IRepoPlateforme {
 	/* METHODS */
@@ -19,15 +17,17 @@ public interface IRepoPlateforme {
 	
 	String getAgenceIdentifiant(Agence agenceLogin);
 	
-	HashMapWrapper getAllCombinations(Agence agenceLogin,
+	Propose[] getAllCombinations(Agence agenceLogin,
 			Calendar dateArrivee, Calendar dateDepart, int nombrePerson);
 	
-	void reserve(Hotel hotelChoisi, String reservationId, ArrayList<Chambre> chambreChoisi, Calendar dateArrivee,
+	int getNombrePropse(Agence agenceLogin, Calendar dateArrivee, Calendar dateDepart, int nombrePerson);
+	
+	void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, Chambre[] chambreChoisi, Calendar dateArrivee,
 			Calendar dateDepart, Client client, double prix, Agence agence);
 	
-	double prixChoisi(Hotel hotelChoisi, ArrayList<Chambre> chambreChoisi, Agence agenceLogin, int days);
+	double prixChoisi(Propose propose, Agence agenceLogin, int days);
 	
-	String getHotelNom(Hotel hotel);
+	String getHotelNom(Propose propose);
 
 	CarteCredit createCarteCredit(String carteNumero, String cvcCode, int expireMois, int expireAnnee);
 

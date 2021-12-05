@@ -1,7 +1,12 @@
 package MainPackage;
 
+import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Main {
 
@@ -15,6 +20,13 @@ public class Main {
 		ClientPackage.IMathService proxy = 
 				MathServiceImpl.getMathServiceImplPort();	
 		System.out.print(proxy.add(1, 2));
+		
+		byte[] image = proxy.downloadImage("ReginaDouble.jpg");
+		JFrame imageFrame = new JFrame();
+        imageFrame.setSize(400, 400);
+        JLabel imageLabel = new JLabel(new ImageIcon(image));
+        imageFrame.add(imageLabel);
+        imageFrame.setVisible(true);
 	}
 
 }

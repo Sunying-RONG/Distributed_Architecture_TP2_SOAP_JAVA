@@ -1,6 +1,5 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.jws.WebService;
@@ -9,7 +8,7 @@ import model.CarteCredit;
 import model.Agence;
 import model.Chambre;
 import model.Client;
-import model.Hotel;
+import model.HotelPartenaireTarif;
 import repository.IRepoPlateforme;
 import repository.RepoPlateformeImpl;
 
@@ -25,9 +24,9 @@ public class HotelServiceWeb2Impl implements IHotelServiceWeb2 {
 	}
 	
 	@Override
-	public void reserve(Hotel hotelChoisi, String reservationId, ArrayList<Chambre> chambreChoisi, 
+	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, Chambre[] chambreChoisi, 
 			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence) {
-		repoPlateformeImpl.reserve(hotelChoisi, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
+		repoPlateformeImpl.reserve(hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
 	}
 	
 	@Override

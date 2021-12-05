@@ -9,6 +9,11 @@ public class Adresse {
 	private AdresseType type;
 	private GPS gps;
 	
+	public Adresse() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Adresse(String pays, String ville, int numero, String codePostale, String nom, 
 			AdresseType type, GPS gps) {
 		super();

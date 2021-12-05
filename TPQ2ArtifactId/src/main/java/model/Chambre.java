@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Chambre {
-	private int chambreId;
+	private String chambreId;
 	private double prix; // euro
 	private double taille; // m2
 	private List<Lit> litCollection = new ArrayList<>();
 	
-	public Chambre(int chambreId, double prix, double taille, 
+	public Chambre() {
+		super();
+	}
+
+	public Chambre(String chambreId, double prix, double taille, 
 			List<Lit> litCollection) {
 		super();
 		this.chambreId = chambreId;
@@ -18,11 +22,11 @@ public class Chambre {
 		this.litCollection = litCollection;
 	}
 
-	public int getChambreId() {
+	public String getChambreId() {
 		return chambreId;
 	}
 
-	public void setChambreId(int chambreId) {
+	public void setChambreId(String chambreId) {
 		this.chambreId = chambreId;
 	}
 

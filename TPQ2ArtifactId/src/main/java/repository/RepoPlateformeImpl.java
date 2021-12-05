@@ -3,7 +3,7 @@ package repository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.List;
 
 import exceptions.HotelAlreadyExistsException;
 import exceptions.HotelNotFoundException;
@@ -14,14 +14,15 @@ import model.CarteCredit;
 import model.Chambre;
 import model.Client;
 import model.GPS;
-import model.HashMapWrapper;
+import model.Propose;
 import model.Hotel;
+import model.HotelPartenaireTarif;
 import model.Lit;
 
 public class RepoPlateformeImpl implements IRepoPlateforme {
 	/* ATTRIBUTES */
-	private ArrayList<Hotel> hotelCollection = new ArrayList<>();
-	private ArrayList<Agence> agenceCollection = new ArrayList<>();
+	private List<Hotel> hotelCollection = new ArrayList<>();
+	private List<Agence> agenceCollection = new ArrayList<>();
 //	private Agence agenceLogin;
 	
 	/* CONSTRUCTORS */
@@ -29,56 +30,56 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 		// Hotel(1, "Campanile Montpellier Est Le Millénaire")
 		GPS gps1 = new GPS(43.60921999607663, 3.9145600068916337);
 		Adresse adresse1 = new Adresse("France", "Montpellier", 1083, "34000", "Henri Becquerel", AdresseType.rue, gps1);
-		ArrayList<Lit> litCollection1_1 = new ArrayList<>();
+		List<Lit> litCollection1_1 = new ArrayList<>();
 		litCollection1_1.addAll(Arrays.asList(
 			new Lit("lit jumeaux", 1),
 			new Lit("lit jumeaux", 1)
 		));
-		ArrayList<Lit> litCollection1_2 = new ArrayList<>();
+		List<Lit> litCollection1_2 = new ArrayList<>();
 		litCollection1_2.addAll(Arrays.asList(
 			new Lit("lit double", 2)
 		));
-		ArrayList<Lit> litCollection1_3 = new ArrayList<>();
+		List<Lit> litCollection1_3 = new ArrayList<>();
 		litCollection1_3.addAll(Arrays.asList(
 			new Lit("lit simple", 1),
 			new Lit("lit double", 2)
 		));
-		ArrayList<Chambre> chambreCollection1 = new ArrayList<>(); 
+		List<Chambre> chambreCollection1 = new ArrayList<>(); 
 		chambreCollection1.addAll(Arrays.asList(
-			new Chambre(1, 79, 17, litCollection1_1),
-			new Chambre(2, 83, 17, litCollection1_2),
-			new Chambre(3, 83, 17, litCollection1_3)
+			new Chambre("campanile1", 79, 17, litCollection1_1),
+			new Chambre("campanile2", 83, 17, litCollection1_2),
+			new Chambre("campanile3", 83, 17, litCollection1_3)
 		));
 		
 		// Hotel(2, "Hotel Regina Louvre")
 		GPS gps2 = new GPS(48.86380999296151, 2.3324799734784563);
 		Adresse adresse2 = new Adresse("France", "Paris", 2, "75001", "des Pyramides", AdresseType.place, gps2);
-		ArrayList<Lit> litCollection2_1 = new ArrayList<>();
+		List<Lit> litCollection2_1 = new ArrayList<>();
 		litCollection2_1.addAll(Arrays.asList(
 			new Lit("grand lit double", 2)
 		));
-		ArrayList<Lit> litCollection2_2 = new ArrayList<>();
+		List<Lit> litCollection2_2 = new ArrayList<>();
 		litCollection2_2.addAll(Arrays.asList(
 			new Lit("tres grand lit double", 2),
 			new Lit("canape-lit", 1)
 		));
-		ArrayList<Lit> litCollection2_3 = new ArrayList<>();
+		List<Lit> litCollection2_3 = new ArrayList<>();
 		litCollection2_3.addAll(Arrays.asList(
 			new Lit("tres grand lit double", 2),
 			new Lit("canape-lit", 1)
 		));
-		ArrayList<Lit> litCollection2_4 = new ArrayList<>();
+		List<Lit> litCollection2_4 = new ArrayList<>();
 		litCollection2_4.addAll(Arrays.asList(
-			new Lit("grand lit double", 2),
+			new Lit("lit simple", 1),
 			new Lit("lit superpose", 1),
 			new Lit("lit superpose", 1)
 		));
-		ArrayList<Chambre> chambreCollection2 = new ArrayList<>(); 
+		List<Chambre> chambreCollection2 = new ArrayList<>(); 
 		chambreCollection2.addAll(Arrays.asList(
-			new Chambre(1, 422, 25, litCollection2_1),
-			new Chambre(2, 768, 60, litCollection2_2),
-			new Chambre(3, 877, 50, litCollection2_3),
-			new Chambre(4, 818, 50, litCollection2_4)
+			new Chambre("regina1", 422, 25, litCollection2_1),
+			new Chambre("regina2", 768, 60, litCollection2_2),
+			new Chambre("regina3", 877, 50, litCollection2_3),
+			new Chambre("regina4", 750, 50, litCollection2_4)
 		));
 		
 		Hotel hotel1 = new Hotel(1, "Campanile Montpellier Est Le Millénaire", 3, adresse1, chambreCollection1);
@@ -113,25 +114,30 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 	}
 	
 	@Override
-	public HashMapWrapper getAllCombinations(Agence agenceLogin,
+	public Propose[] getAllCombinations(Agence agenceLogin,
 			Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
-		return agenceLogin.allCombinations(dateArrivee, dateDepart, nombrePerson);
+		return agenceLogin.allProposes(dateArrivee, dateDepart, nombrePerson);
 	} 
 	
 	@Override
-	public void reserve(Hotel hotelChoisi, String reservationId, ArrayList<Chambre> chambreChoisi, 
-			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence) {
-		hotelChoisi.reserve(hotelChoisi, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
-	}
-
-	@Override
-	public double prixChoisi(Hotel hotelChoisi, ArrayList<Chambre> chambreChoisi, Agence agenceLogin, int days) {
-		return hotelChoisi.prixChambresPropose(chambreChoisi, agenceLogin)*days;
+	public int getNombrePropse(Agence agenceLogin, Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
+		return agenceLogin.getNombrePropse(dateArrivee, dateDepart, nombrePerson);
 	}
 	
 	@Override
-	public String getHotelNom(Hotel hotel) {
-		return hotel.getNom();
+	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, Chambre[] chambreChoisi, 
+			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence) {
+		hotelPartenaireTarif.getHotel().reserve(hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
+	}
+
+	@Override
+	public double prixChoisi(Propose propose, Agence agenceLogin, int days) {
+		return agenceLogin.prixChoisi(propose)*days;
+	}
+	
+	@Override
+	public String getHotelNom(Propose propose) {
+		return propose.getHotelPartenaireTarif().getHotel().getNom();
 	}
 	
 	@Override
@@ -145,5 +151,5 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 		Client client = new Client(nom, prenom, carteCredit);
 		return client;
 	}
-
+	
 }

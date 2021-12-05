@@ -41,22 +41,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Agence }
-     * 
-     */
-    public Agence createAgence() {
-        return new Agence();
-    }
-
-    /**
-     * Create an instance of {@link Agence.HotelPartenaireTarif }
-     * 
-     */
-    public Agence.HotelPartenaireTarif createAgenceHotelPartenaireTarif() {
-        return new Agence.HotelPartenaireTarif();
-    }
-
-    /**
      * Create an instance of {@link CreateClient }
      * 
      */
@@ -121,11 +105,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link HotelPartenaireTarif }
+     * 
+     */
+    public HotelPartenaireTarif createHotelPartenaireTarif() {
+        return new HotelPartenaireTarif();
+    }
+
+    /**
      * Create an instance of {@link Chambre }
      * 
      */
     public Chambre createChambre() {
         return new Chambre();
+    }
+
+    /**
+     * Create an instance of {@link Agence }
+     * 
+     */
+    public Agence createAgence() {
+        return new Agence();
     }
 
     /**
@@ -161,11 +161,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Agence.HotelPartenaireTarif.Entry }
+     * Create an instance of {@link Reservation }
      * 
      */
-    public Agence.HotelPartenaireTarif.Entry createAgenceHotelPartenaireTarifEntry() {
-        return new Agence.HotelPartenaireTarif.Entry();
+    public Reservation createReservation() {
+        return new Reservation();
     }
 
     /**

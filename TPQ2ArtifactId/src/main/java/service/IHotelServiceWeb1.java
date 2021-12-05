@@ -1,17 +1,18 @@
 package service;
 
-import java.util.ArrayList;
+import java.awt.Image;
 import java.util.Calendar;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.jws.soap.SOAPBinding.Style;
 
 import model.Agence;
-import model.Chambre;
-import model.HashMapWrapper;
-import model.Hotel;
+import model.Propose;
 
 @WebService
+@SOAPBinding(style=Style.RPC)
 public interface IHotelServiceWeb1 {
 	@WebMethod
 	Agence agenceLogin(String identifiant, String mdp);
@@ -20,13 +21,18 @@ public interface IHotelServiceWeb1 {
 	String getAgenceIdentifiant(Agence agenceLogin);
 	
 	@WebMethod
-	HashMapWrapper getAllCombinations(Agence agenceLogin,
+	Propose[] getAllCombinations(Agence agenceLogin,
 			Calendar dateArrivee, Calendar dateDepart, int nombrePerson);
 	
 	@WebMethod
-	double prixChoisi(Hotel hotelChoisi, ArrayList<Chambre> chambreChoisi, Agence agenceLogin, int days);
+	int getNombrePropse(Agence agenceLogin,
+			Calendar dateArrivee, Calendar dateDepart, int nombrePerson);
+	@WebMethod
+	double prixChoisi(Propose propose, Agence agenceLogin, int days);
 	
 	@WebMethod
-	String getHotelNom(Hotel hotel);
-
+	String getHotelNom(Propose propose);
+	
+	@WebMethod
+	Image downloadImage(String imageName);
 }

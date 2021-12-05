@@ -1,6 +1,8 @@
 package test;
 
+import java.awt.Image;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -12,9 +14,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import model.Agence;
 import model.Hotel;
+import model.HotelPartenaireTarif;
 import service.HotelServiceWeb1Impl;
 import service.HotelServiceWeb2Impl;
 import service.IHotelServiceWeb1;
@@ -23,6 +32,7 @@ import model.Chambre;
 import model.Client;
 import service.IHotelServiceWeb2;
 import model.Lit;
+import model.Propose;
 
 public class TestCli {
 	public static final String QUIT = "0";
@@ -66,6 +76,7 @@ public class TestCli {
 		StringBuilder builder = new StringBuilder();
 		builder.append(QUIT+". Quit.");
 		builder.append("\n1. Agence Login :");
+//		builder.append("\n2. Display Image :");
 		System.out.println(builder);
 	}
 	
@@ -78,9 +89,16 @@ public class TestCli {
 				case QUIT:
 					System.out.println("Au revoir ...");
 					return;
+//				case "2":
+//					Image image = proxy1.downloadImage("ReginaDoubleCanape.jpg");
+//					JFrame imageFrame = new JFrame();
+//			        imageFrame.setSize(1000, 700);
+//			        JLabel imageLabel = new JLabel(new ImageIcon(image));
+//			        imageFrame.add(imageLabel);
+//			        imageFrame.setVisible(true);
 				case "1":
 					Agence agenceLogin = this.login(reader, proxy1);
-					System.out.print("##"+agenceLogin.getIdentifiant());
+//					System.out.print("##"+agenceLogin.getIdentifiant());
 					while (agenceLogin == null) {
 						System.err.println("Identifiant ou mot de passe n'est pas correct, veuillez réessayer !\n");
 						agenceLogin = this.login(reader, proxy1);
@@ -109,42 +127,43 @@ public class TestCli {
 					int nombrePerson = (int) inputStringToInt.process();
 					System.out.println();
 					
-					HashMap<String, HashMap<Hotel, ArrayList<Chambre>>> allCombinations = 
-							proxy1.getAllCombinations(agenceLogin, dateArrivee, dateDepart, nombrePerson).getAllCombinations();
+					Propose[] allCombinations = 
+							proxy1.getAllCombinations(agenceLogin, dateArrivee, dateDepart, nombrePerson);
 					
-					if (allCombinations.size() == 0) {
+					if (allCombinations.length == 0) {
 						System.err.println("Désolé, pas d'hôtel correspond. Veuillez réessayer.");
 						break;
 					} else {
 						System.out.println("Voici tous les propositions : ");
-						int days = daysBetween(dateArrivee, dateDepart);
-						this.displayAllCombinations(allCombinations, dateArrivee, dateDepart, agenceLogin, days, proxy1);	
-					
+						int days = this.daysBetween(dateArrivee, dateDepart);
+						List<String> listChambreId = this.displayAllCombinations(allCombinations, dateArrivee, dateDepart, agenceLogin, days, proxy1);
+						String display = "";
+						do {
+							System.out.println("Display image de chambre ? y/n");
+							display = reader.readLine();
+							System.out.println();
+							this.processDisplayInput(reader, display, listChambreId, proxy1);
+						} while(!display.equals("n"));
+						
 						// IHotelServiceWeb2 reserver
 						System.out.println("Saisir l‘identifiant de l'offre pour réserver : ");
 						String identifiantOffre = reader.readLine();
 						System.out.println();
-						HashMap<String, HashMap<Hotel, ArrayList<Chambre>>> offreChoisi = getPropose(allCombinations, identifiantOffre);
-						while (offreChoisi.size() == 0) {
+						Propose offreChoisi = this.getPropose(allCombinations, identifiantOffre);
+						while (offreChoisi == null) {
 							System.err.println("Désolé, pas d'hôtel correspond. Veuillez réessayer.");
 							System.out.println("Saisir l‘identifiant de l'offre pour réserver : ");
 							identifiantOffre = reader.readLine();
 							System.out.println();
 							offreChoisi = getPropose(allCombinations, identifiantOffre);
 						}
-						String identifiantChoisi = offreChoisi.keySet().iterator().next();
-						HashMap<Hotel, ArrayList<Chambre>> hcgroup = offreChoisi.get(identifiantChoisi);
-						Hotel hotelChoisi = hcgroup.keySet().iterator().next();
-						ArrayList<Chambre> chambreChoisi = hcgroup.get(hotelChoisi);
-//						double prixChoisi = hotelChoisi.prixChambresPropose(chambreChoisi, agenceLogin)*days;
-						double prixChoisi = proxy1.prixChoisi(hotelChoisi, chambreChoisi, agenceLogin, days);
 						
-						System.out.println("Offre "+identifiantChoisi+" est choisi.");
+						System.out.println("Offre "+identifiantOffre+" est choisi.");
 						// Agence login
 						Agence agenceLoginRes = this.loginRes(reader, proxy2);
-						System.err.println(agenceLoginRes.getIdentifiant() + " " + agenceLoginRes.getMdp());
-						System.err.println(agenceLoginRes.toString());
-						System.err.println(agenceLogin.toString());
+//						System.err.println(agenceLoginRes.getIdentifiant() + " " + agenceLoginRes.getMdp());
+//						System.err.println(agenceLoginRes.toString());
+//						System.err.println(agenceLogin.toString());
 
 						while (agenceLoginRes == null || 
 								!agenceLoginRes.getIdentifiant().equals(agenceLogin.getIdentifiant()) ||
@@ -183,12 +202,17 @@ public class TestCli {
 						
 						CarteCredit carteCredit = proxy2.createCarteCredit(carteNumero, cvcCode, expireMois, expireAnnee);
 						Client client = proxy2.createClient(nom, prenom, carteCredit);
-//						Client client = new Client(nom, prenom, carteCredit);
 						
-						String reservationId = this.generateResId(agenceLoginRes, hotelChoisi, client);
+						HotelPartenaireTarif hotelPartenaireTarif = offreChoisi.getHotelPartenaireTarif();
+						List<Chambre> chambreChoisi = offreChoisi.getListChambre();
+						Chambre[] chambreChoisiArray = chambreChoisi.toArray(new Chambre[0]);
+						double prixChoisi = proxy1.prixChoisi(offreChoisi, agenceLogin, days);
+						
+						String reservationId = this.generateResId(agenceLoginRes, hotelPartenaireTarif, client);
 						reservationId = reservationId.replaceAll("\\s+","");
+						
 						try {
-							proxy2.reserve(hotelChoisi, reservationId, chambreChoisi, 
+							proxy2.reserve(hotelPartenaireTarif, reservationId, chambreChoisiArray, 
 									dateArrivee, dateDepart, client, prixChoisi, agenceLoginRes);
 							System.out.println("Réservé avec succès. Votre numéro de réservation est "+reservationId);
 						} catch (Exception e) {
@@ -203,28 +227,37 @@ public class TestCli {
 		}
 	}
 		
-	public void displayAllCombinations(HashMap<String, HashMap<Hotel, ArrayList<Chambre>>> allCombinations, 
+	public List<String> displayAllCombinations(Propose[] allCombinations, 
 			Calendar dateArrivee, Calendar dateDepart, Agence agenceLogin, int days, IHotelServiceWeb1 proxy1) {
-		for (String offre : allCombinations.keySet()) {
-			HashMap<Hotel, ArrayList<Chambre>> propose = allCombinations.get(offre);
-			Hotel hotel = propose.keySet().iterator().next();
-			ArrayList<Chambre> chambres = propose.get(hotel);
-			String descLit = "";
+		List<String> listChambreId = new ArrayList<>();
+		for (Propose propose : allCombinations) {
+			System.out.println(
+					"Identifiant de l'offre : " + propose.getOffreId() + "\n" +
+					"Nom de l'hôtel : " + proxy1.getHotelNom(propose) + "\n" +
+					"Date de disponibilité : de " + this.calendarToString(dateArrivee) + " à " + this.calendarToString(dateDepart)
+			);
 			int nombreLits = 0;
-			for (Chambre c : chambres) {
+			for (Chambre c : propose.getListChambre()) {
+				listChambreId.add(c.getChambreId());
+				String descLit = "";
+				System.out.println(
+						"#Chambre Id : " + c.getChambreId()
+				);
 				for (Lit lit : c.getLitCollection()) {
 					descLit = descLit + lit.toString() + "\n";
 					nombreLits++;
 				}
+				System.out.println(
+					descLit
+				);
 			}
 			System.out.println(
-					"Identifiant de l'offre : " + offre + "\n" +
-					"Nom de l'hôtel : " + proxy1.getHotelNom(hotel) + "\n" +
-					"Nombre de lits proposés : " + nombreLits + "\n" + descLit +
-					"Date de disponibilité : de " + this.calendarToString(dateArrivee) + " à " + this.calendarToString(dateDepart) + "\n" +
-					"Prix total à payer : " + this.doubleToString(proxy1.prixChoisi(hotel, chambres, agenceLogin, days)) + " (avec pourcentage de commission)" + " (Pour " + days + " nuits)" + "\n"
+					"Nombre de lits totaux proposés : " + nombreLits + "\n" +
+					"Prix total à payer : " + this.doubleToString(proxy1.prixChoisi(propose, agenceLogin, days)) + " (avec pourcentage de commission)" + " (Pour " + days + " nuits)" + "\n" +
+					"--------------------"
 			);
 		}
+		return listChambreId;
 	}
 	
 	private String calendarToString(Calendar date) {
@@ -238,7 +271,7 @@ public class TestCli {
 		return df.format(prix);
 	}
 		
-	private static int daysBetween(Calendar dateArrivee, Calendar dateDepart) {
+	private int daysBetween(Calendar dateArrivee, Calendar dateDepart) {
 		Date d1 = dateArrivee.getTime();
 		Date d2 = dateDepart.getTime();
 		return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
@@ -284,23 +317,53 @@ public class TestCli {
 		return proxy2.agenceLoginRes(identifiant, mdp);
 	}
 	
-	private String generateResId(Agence agence, Hotel hotel, Client client) {
+	private String generateResId(Agence agence, HotelPartenaireTarif hotelPartenaireTarif, Client client) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		String reservationId = agence.getIdentifiant()+hotel.getNom()+client.getNom()+timestamp.getTime();
+		String reservationId = agence.getIdentifiant()+client.getNom()+timestamp.getTime();
 		return reservationId;
 	}
 	
-	private static HashMap<String, HashMap<Hotel, ArrayList<Chambre>>> getPropose(
-			HashMap<String, HashMap<Hotel, ArrayList<Chambre>>> allCombinations, String identifiantOffre) {
-		HashMap<String, HashMap<Hotel, ArrayList<Chambre>>> offreChoisi = new HashMap<String, HashMap<Hotel, ArrayList<Chambre>>>();
-		for (String offre : allCombinations.keySet()) {
-			if (offre.equals(identifiantOffre)) {
-				offreChoisi.put(offre, allCombinations.get(offre));
+	private Propose getPropose(Propose[] allCombinations, String identifiantOffre) {
+		for (Propose propose : allCombinations) {
+			if (propose.getOffreId().equals(identifiantOffre)) {
+				return propose;
 			}
 		}
-		return offreChoisi;
+		return null;
 	}
 	
-
+	public void displayImage(String imageName, IHotelServiceWeb1 proxy1) {
+		Image image = proxy1.downloadImage(imageName);
+		JFrame imageFrame = new JFrame();
+        imageFrame.setSize(1024, 683);
+        JLabel imageLabel = new JLabel(new ImageIcon(image));
+        imageFrame.add(imageLabel);
+        imageFrame.setVisible(true);
+        imageFrame.setAlwaysOnTop(true);
+    }
 	
+	public void processDisplayInput(BufferedReader reader, String display, List<String> listChambreId, IHotelServiceWeb1 proxy1) {
+		try {
+			switch(display) {
+			default:
+				System.err.println("Désolé, mauvaise saisie. Veuillez réessayer.");
+				return;
+			case "n":
+				return;
+			case "y":
+				System.out.println("Chambre Id ?");
+				String chambreId = reader.readLine();
+				if (listChambreId.contains(chambreId)) {
+					this.displayImage(chambreId, proxy1);
+//					Thread.sleep(2000);
+				} else {
+					System.err.println("Chambre Id n'est pas correct.");
+				}
+				return;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

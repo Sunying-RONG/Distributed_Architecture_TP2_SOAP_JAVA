@@ -4,6 +4,11 @@ public class Lit {
 	private String type;
 	private int capacite;
 	
+	public Lit() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Lit(String type, int capacite) {
 		super();
 		this.type = type;

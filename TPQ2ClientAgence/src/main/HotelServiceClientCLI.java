@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,9 +24,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import service1.Chambre;
 import service1.Lit;
 import service1.HotelPartenaireTarif;
-import service1.HotelPartenaireTarifArray;
 import service1.Propose;
-import service1.ProposeArray;
 import service1.Agence;
 import service1.IHotelServiceWeb1;
 import service2.CarteCredit;
@@ -41,7 +38,6 @@ public class HotelServiceClientCLI {
 	public static StringToInt inputStringToInt;
 	
 	public static void main(String[] args) throws MalformedURLException {
-		// TODO Auto-generated method stub
 		URL url1 = new URL("http://localhost:8080/serviceweb1?wsdl");
 		URL url2 = new URL("http://localhost:8080/serviceweb2?wsdl");
 		
@@ -75,7 +71,6 @@ public class HotelServiceClientCLI {
 		builder.append("\n1. Agence Login :");
 		System.out.println(builder);
 	}
-	
 
 	private void processUserInput(BufferedReader reader, String userInput, IHotelServiceWeb1 proxy1, IHotelServiceWeb2 proxy2) {
 		try {
@@ -86,27 +81,18 @@ public class HotelServiceClientCLI {
 				case QUIT:
 					System.out.println("Au revoir ...");
 					return;
-//				case "2":
-//					Image image = proxy1.downloadImage("ReginaDoubleCanape.jpg");
-//					JFrame imageFrame = new JFrame();
-//			        imageFrame.setSize(1000, 700);
-//			        JLabel imageLabel = new JLabel(new ImageIcon(image));
-//			        imageFrame.add(imageLabel);
-//			        imageFrame.setVisible(true);
 				case "1":
 					Agence agenceLogin = this.login(reader, proxy1);
-//					System.out.print("##"+agenceLogin.getIdentifiant());
 					while (agenceLogin == null) {
 						System.err.println("Identifiant ou mot de passe n'est pas correct, veuillez réessayer !\n");
 						agenceLogin = this.login(reader, proxy1);
 					}
 					System.out.println(proxy1.getAgenceIdentifiant(agenceLogin)+" login avec succès !");
 
-					HotelPartenaireTarifArray p =  proxy1.getAgencePartenaire(agenceLogin);
-					List<HotelPartenaireTarif> listP = p.getItem();
-					for (HotelPartenaireTarif hp : listP) {
-						System.out.println("partenaire : "+hp.getPourcentage());
-					}
+//					List<HotelPartenaireTarif> p =  proxy1.getAgencePartenaire(agenceLogin);
+//					for (HotelPartenaireTarif hp : p) {
+//						System.out.println("partenaire : "+hp.getPourcentage());
+//					}
 					
 					System.out.println("Date arrivée (dd/MM/yyyy): ");
 					inputStringToCalendar = new StringToCalendar(reader);
@@ -130,17 +116,15 @@ public class HotelServiceClientCLI {
 					int nombrePerson = (int) inputStringToInt.process();
 					System.out.println();
 					
-					ProposeArray allCombinations = 
+					List<Propose> allCombinations = 
 							proxy1.getAllCombinations(agenceLogin, this.calendarToXMLGregorianCalendar(dateArrivee), this.calendarToXMLGregorianCalendar(dateDepart), nombrePerson);
-					List<Propose> allCombinationsList = allCombinations.getItem();
-//					int nombrePropose = proxy1.getNombrePropse(agenceLogin, dateArrivee, dateDepart, nombrePerson);
-					if (allCombinationsList.size() == 0) {
+					if (allCombinations.size() == 0) {
 						System.err.println("Désolé, pas d'hôtel correspond. Veuillez réessayer.");
 						break;
 					} else {
 						System.out.println("Voici tous les propositions : ");
 						int days = this.daysBetween(dateArrivee, dateDepart);
-						List<String> listChambreId = this.displayAllCombinations(allCombinationsList, dateArrivee, dateDepart, agenceLogin, days, proxy1);
+						List<String> listChambreId = this.displayAllCombinations(allCombinations, dateArrivee, dateDepart, agenceLogin, days, proxy1);
 						String display = "";
 						do {
 							System.out.println("Display image de chambre ? y/n");
@@ -153,22 +137,18 @@ public class HotelServiceClientCLI {
 						System.out.println("Saisir l‘identifiant de l'offre pour réserver : ");
 						String identifiantOffre = reader.readLine();
 						System.out.println();
-						Propose offreChoisi = this.getPropose(allCombinationsList, identifiantOffre);
+						Propose offreChoisi = this.getPropose(allCombinations, identifiantOffre);
 						while (offreChoisi == null) {
 							System.err.println("Désolé, pas d'hôtel correspond. Veuillez réessayer.");
 							System.out.println("Saisir l‘identifiant de l'offre pour réserver : ");
 							identifiantOffre = reader.readLine();
 							System.out.println();
-							offreChoisi = this.getPropose(allCombinationsList, identifiantOffre);
+							offreChoisi = this.getPropose(allCombinations, identifiantOffre);
 						}
 						
 						System.out.println("Offre "+identifiantOffre+" est choisi.");
 						// Agence login
 						service2.Agence agenceLoginRes = this.loginRes(reader, proxy2);
-//						System.err.println(agenceLoginRes.getIdentifiant() + " " + agenceLoginRes.getMdp());
-//						System.err.println(agenceLoginRes.toString());
-//						System.err.println(agenceLogin.toString());
-
 						while (agenceLoginRes == null || 
 								!agenceLoginRes.getIdentifiant().equals(agenceLogin.getIdentifiant()) ||
 								!agenceLoginRes.getMdp().equals(agenceLogin.getMdp())) {
@@ -185,7 +165,7 @@ public class HotelServiceClientCLI {
 						String prenom = reader.readLine();
 						System.out.println();
 						
-							// carte credit
+						// carte credit
 						System.out.println("Numéro de carte crédit (16 chiffres) : ");
 						String carteNumero = reader.readLine();
 						System.out.println();
@@ -209,7 +189,6 @@ public class HotelServiceClientCLI {
 						
 						HotelPartenaireTarif hotelPartenaireTarif = offreChoisi.getHotelPartenaireTarif();
 						List<Chambre> chambreChoisi = offreChoisi.getListChambre();
-//						Chambre[] chambreChoisiArray = chambreChoisi.toArray(new Chambre[0]);
 						double prixChoisi = proxy1.prixChoisi(offreChoisi, agenceLogin, days);
 						
 						String reservationId = this.generateResId(agenceLoginRes, hotelPartenaireTarif, client);
@@ -297,7 +276,6 @@ public class HotelServiceClientCLI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		System.err.println("in login");
 		return proxy1.agenceLogin(identifiant, mdp);
 	}
 	
@@ -367,7 +345,6 @@ public class HotelServiceClientCLI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	private XMLGregorianCalendar calendarToXMLGregorianCalendar(Calendar cal) {
@@ -382,7 +359,6 @@ public class HotelServiceClientCLI {
 						cal.get(Calendar.MINUTE),
 						cal.get(Calendar.SECOND), DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED);
 		} catch (DatatypeConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return gDateFormatted;

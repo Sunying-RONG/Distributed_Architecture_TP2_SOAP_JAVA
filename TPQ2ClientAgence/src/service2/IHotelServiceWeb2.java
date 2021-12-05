@@ -29,30 +29,6 @@ public interface IHotelServiceWeb2 {
     /**
      * 
      * @param arg3
-     * @param arg2
-     * @param arg1
-     * @param arg0
-     * @return
-     *     returns service2.CarteCredit
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "createCarteCredit", targetNamespace = "http://service/", className = "service2.CreateCarteCredit")
-    @ResponseWrapper(localName = "createCarteCreditResponse", targetNamespace = "http://service/", className = "service2.CreateCarteCreditResponse")
-    @Action(input = "http://service/IHotelServiceWeb2/createCarteCreditRequest", output = "http://service/IHotelServiceWeb2/createCarteCreditResponse")
-    public CarteCredit createCarteCredit(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        String arg1,
-        @WebParam(name = "arg2", targetNamespace = "")
-        int arg2,
-        @WebParam(name = "arg3", targetNamespace = "")
-        int arg3);
-
-    /**
-     * 
-     * @param arg3
      * @param chambreChoisi
      * @param arg5
      * @param arg4
@@ -82,6 +58,30 @@ public interface IHotelServiceWeb2 {
         double arg6,
         @WebParam(name = "arg7", targetNamespace = "")
         Agence arg7);
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns service2.CarteCredit
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "createCarteCredit", targetNamespace = "http://service/", className = "service2.CreateCarteCredit")
+    @ResponseWrapper(localName = "createCarteCreditResponse", targetNamespace = "http://service/", className = "service2.CreateCarteCreditResponse")
+    @Action(input = "http://service/IHotelServiceWeb2/createCarteCreditRequest", output = "http://service/IHotelServiceWeb2/createCarteCreditResponse")
+    public CarteCredit createCarteCredit(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1,
+        @WebParam(name = "arg2", targetNamespace = "")
+        int arg2,
+        @WebParam(name = "arg3", targetNamespace = "")
+        int arg3);
 
     /**
      * 

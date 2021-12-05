@@ -24,12 +24,9 @@ public interface IHotelServiceWeb1 {
 	String getAgenceIdentifiant(Agence agenceLogin);
 	
 	@WebMethod
-	Propose[] getAllCombinations(Agence agenceLogin,
+	List<Propose> getAllCombinations(Agence agenceLogin,
 			Calendar dateArrivee, Calendar dateDepart, int nombrePerson);
 	
-	@WebMethod
-	int getNombrePropse(Agence agenceLogin,
-			Calendar dateArrivee, Calendar dateDepart, int nombrePerson);
 	@WebMethod
 	double prixChoisi(Propose propose, Agence agenceLogin, int days);
 	
@@ -40,8 +37,8 @@ public interface IHotelServiceWeb1 {
 	Image downloadImage(String imageName);
 	
 	@WebMethod
-	HotelPartenaireTarif[] getAgencePartenaire(Agence agenceLogin);
+	List<HotelPartenaireTarif> getAgencePartenaire(Agence agenceLogin);
 	
-	@WebMethod
-	List<Employee> getEmployees();
+//	@WebMethod
+//	List<String> getTest(Calendar cal1, Calendar cal2);
 }

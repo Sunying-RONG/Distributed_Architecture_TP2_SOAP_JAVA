@@ -24,7 +24,6 @@ public class HotelServiceWeb1Impl implements IHotelServiceWeb1 {
 	private IRepoPlateforme repoPlateformeImpl = new RepoPlateformeImpl();
 
 	/* METHODS */
-	
 	@Override
 	public Agence agenceLogin(String identifiant, String mdp) {
 		return repoPlateformeImpl.agenceLogin(identifiant, mdp);
@@ -36,15 +35,9 @@ public class HotelServiceWeb1Impl implements IHotelServiceWeb1 {
 	}
 	
 	@Override
-	public Propose[] getAllCombinations(Agence agenceLogin,
+	public List<Propose> getAllCombinations(Agence agenceLogin,
 			Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
 		return repoPlateformeImpl.getAllCombinations(agenceLogin, dateArrivee, dateDepart, nombrePerson);
-	}
-	
-	@Override
-	public int getNombrePropse(Agence agenceLogin,
-			Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
-		return repoPlateformeImpl.getNombrePropse(agenceLogin, dateArrivee, dateDepart, nombrePerson);
 	}
 	
 	@Override
@@ -69,13 +62,13 @@ public class HotelServiceWeb1Impl implements IHotelServiceWeb1 {
     }
 
 	@Override
-	public HotelPartenaireTarif[] getAgencePartenaire(Agence agenceLogin) {
+	public List<HotelPartenaireTarif> getAgencePartenaire(Agence agenceLogin) {
 		return repoPlateformeImpl.getAgencePartenaire(agenceLogin);
 	}
 	
-	@Override
-	public List<Employee> getEmployees() {
-		return repoPlateformeImpl.getEmployees();
-	}
+//	@Override
+//	public List<String> getTest(Calendar cal1, Calendar cal2) {
+//		return repoPlateformeImpl.getTest(cal1, cal2);
+//	}
 
 }

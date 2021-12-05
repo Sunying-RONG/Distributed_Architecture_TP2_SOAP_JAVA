@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for hotelPartenaireTarifArray complex type.
+ * <p>Java class for getAgencePartenaireResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="hotelPartenaireTarifArray">
+ * &lt;complexType name="getAgencePartenaireResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="item" type="{http://service/}hotelPartenaireTarif" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="return" type="{http://service/}hotelPartenaireTarif" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,27 +29,27 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "hotelPartenaireTarifArray", propOrder = {
-    "item"
+@XmlType(name = "getAgencePartenaireResponse", propOrder = {
+    "_return"
 })
-public class HotelPartenaireTarifArray {
+public class GetAgencePartenaireResponse {
 
-    @XmlElement(nillable = true)
-    protected List<HotelPartenaireTarif> item;
+    @XmlElement(name = "return")
+    protected List<HotelPartenaireTarif> _return;
 
     /**
-     * Gets the value of the item property.
+     * Gets the value of the return property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the item property.
+     * This is why there is not a <CODE>set</CODE> method for the return property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getItem().add(newItem);
+     *    getReturn().add(newItem);
      * </pre>
      * 
      * 
@@ -59,11 +59,11 @@ public class HotelPartenaireTarifArray {
      * 
      * 
      */
-    public List<HotelPartenaireTarif> getItem() {
-        if (item == null) {
-            item = new ArrayList<HotelPartenaireTarif>();
+    public List<HotelPartenaireTarif> getReturn() {
+        if (_return == null) {
+            _return = new ArrayList<HotelPartenaireTarif>();
         }
-        return this.item;
+        return this._return;
     }
 
 }

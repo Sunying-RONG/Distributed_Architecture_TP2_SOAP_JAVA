@@ -11,7 +11,6 @@ public class Adresse {
 	
 	public Adresse() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Adresse(String pays, String ville, int numero, String codePostale, String nom, 

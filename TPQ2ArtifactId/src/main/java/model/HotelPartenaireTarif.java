@@ -6,7 +6,6 @@ public class HotelPartenaireTarif {
 	
 	public HotelPartenaireTarif() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public HotelPartenaireTarif(Hotel hotel, double pourcentage) {
 		super();

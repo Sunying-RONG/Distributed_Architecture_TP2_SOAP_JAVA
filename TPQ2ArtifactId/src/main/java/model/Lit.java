@@ -6,7 +6,6 @@ public class Lit {
 	
 	public Lit() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Lit(String type, int capacite) {

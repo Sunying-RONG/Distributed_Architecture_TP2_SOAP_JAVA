@@ -2,11 +2,9 @@ package test;
 
 import java.awt.Image;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -16,13 +14,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import model.Agence;
-import model.Hotel;
 import model.HotelPartenaireTarif;
 import service.HotelServiceWeb1Impl;
 import service.HotelServiceWeb2Impl;
@@ -41,7 +37,6 @@ public class TestCli {
 	public static StringToInt inputStringToInt;
 	
 	public static void main(String[] args) throws MalformedURLException {
-		// TODO Auto-generated method stub
 //		URL url1 = new URL("http://localhost:8080/serviceweb1?wsdl");
 //		URL url2 = new URL("http://localhost:8080/serviceweb2?wsdl");
 		
@@ -76,7 +71,6 @@ public class TestCli {
 		StringBuilder builder = new StringBuilder();
 		builder.append(QUIT+". Quit.");
 		builder.append("\n1. Agence Login :");
-//		builder.append("\n2. Display Image :");
 		System.out.println(builder);
 	}
 	
@@ -89,16 +83,8 @@ public class TestCli {
 				case QUIT:
 					System.out.println("Au revoir ...");
 					return;
-//				case "2":
-//					Image image = proxy1.downloadImage("ReginaDoubleCanape.jpg");
-//					JFrame imageFrame = new JFrame();
-//			        imageFrame.setSize(1000, 700);
-//			        JLabel imageLabel = new JLabel(new ImageIcon(image));
-//			        imageFrame.add(imageLabel);
-//			        imageFrame.setVisible(true);
 				case "1":
 					Agence agenceLogin = this.login(reader, proxy1);
-//					System.out.print("##"+agenceLogin.getIdentifiant());
 					while (agenceLogin == null) {
 						System.err.println("Identifiant ou mot de passe n'est pas correct, veuillez réessayer !\n");
 						agenceLogin = this.login(reader, proxy1);
@@ -126,11 +112,20 @@ public class TestCli {
 					inputStringToInt = new StringToInt(reader);
 					int nombrePerson = (int) inputStringToInt.process();
 					System.out.println();
-					
-					Propose[] allCombinations = 
+//					List<String> test = proxy1.getTest(this.calendarToXMLGregorianCalendar(dateArrivee), this.calendarToXMLGregorianCalendar(dateDepart));
+//					List<String> test = proxy1.getTest(dateArrivee, dateDepart);
+//					if (test.size() == 1) {
+//						System.err.println("size1.");
+//					} else if (test.size() == 2) {
+//						System.err.println("size2.");
+//					} else {
+//						System.err.println("nothing not working.");
+//					}
+//					List<Propose> allCombinations = 
+//							proxy1.getAllCombinations(agenceLogin, this.calendarToXMLGregorianCalendar(dateArrivee), this.calendarToXMLGregorianCalendar(dateDepart), nombrePerson);
+					List<Propose> allCombinations = 
 							proxy1.getAllCombinations(agenceLogin, dateArrivee, dateDepart, nombrePerson);
-					
-					if (allCombinations.length == 0) {
+					if (allCombinations.size() == 0) {
 						System.err.println("Désolé, pas d'hôtel correspond. Veuillez réessayer.");
 						break;
 					} else {
@@ -155,16 +150,12 @@ public class TestCli {
 							System.out.println("Saisir l‘identifiant de l'offre pour réserver : ");
 							identifiantOffre = reader.readLine();
 							System.out.println();
-							offreChoisi = getPropose(allCombinations, identifiantOffre);
+							offreChoisi = this.getPropose(allCombinations, identifiantOffre);
 						}
 						
 						System.out.println("Offre "+identifiantOffre+" est choisi.");
 						// Agence login
 						Agence agenceLoginRes = this.loginRes(reader, proxy2);
-//						System.err.println(agenceLoginRes.getIdentifiant() + " " + agenceLoginRes.getMdp());
-//						System.err.println(agenceLoginRes.toString());
-//						System.err.println(agenceLogin.toString());
-
 						while (agenceLoginRes == null || 
 								!agenceLoginRes.getIdentifiant().equals(agenceLogin.getIdentifiant()) ||
 								!agenceLoginRes.getMdp().equals(agenceLogin.getMdp())) {
@@ -181,7 +172,7 @@ public class TestCli {
 						String prenom = reader.readLine();
 						System.out.println();
 						
-							// carte credit
+						// carte credit
 						System.out.println("Numéro de carte crédit (16 chiffres) : ");
 						String carteNumero = reader.readLine();
 						System.out.println();
@@ -205,14 +196,15 @@ public class TestCli {
 						
 						HotelPartenaireTarif hotelPartenaireTarif = offreChoisi.getHotelPartenaireTarif();
 						List<Chambre> chambreChoisi = offreChoisi.getListChambre();
-						Chambre[] chambreChoisiArray = chambreChoisi.toArray(new Chambre[0]);
 						double prixChoisi = proxy1.prixChoisi(offreChoisi, agenceLogin, days);
 						
 						String reservationId = this.generateResId(agenceLoginRes, hotelPartenaireTarif, client);
 						reservationId = reservationId.replaceAll("\\s+","");
 						
 						try {
-							proxy2.reserve(hotelPartenaireTarif, reservationId, chambreChoisiArray, 
+//							proxy2.reserve(hotelPartenaireTarif, reservationId, chambreChoisi, 
+//									this.calendarToXMLGregorianCalendar(dateArrivee), this.calendarToXMLGregorianCalendar(dateDepart), client, prixChoisi, agenceLoginRes);
+							proxy2.reserve(hotelPartenaireTarif, reservationId, chambreChoisi, 
 									dateArrivee, dateDepart, client, prixChoisi, agenceLoginRes);
 							System.out.println("Réservé avec succès. Votre numéro de réservation est "+reservationId);
 						} catch (Exception e) {
@@ -227,10 +219,10 @@ public class TestCli {
 		}
 	}
 		
-	public List<String> displayAllCombinations(Propose[] allCombinations, 
+	public List<String> displayAllCombinations(List<Propose> allCombinationsList, 
 			Calendar dateArrivee, Calendar dateDepart, Agence agenceLogin, int days, IHotelServiceWeb1 proxy1) {
 		List<String> listChambreId = new ArrayList<>();
-		for (Propose propose : allCombinations) {
+		for (Propose propose : allCombinationsList) {
 			System.out.println(
 					"Identifiant de l'offre : " + propose.getOffreId() + "\n" +
 					"Nom de l'hôtel : " + proxy1.getHotelNom(propose) + "\n" +
@@ -293,7 +285,6 @@ public class TestCli {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		System.err.println("in login");
 		return proxy1.agenceLogin(identifiant, mdp);
 	}
 	
@@ -317,14 +308,14 @@ public class TestCli {
 		return proxy2.agenceLoginRes(identifiant, mdp);
 	}
 	
-	private String generateResId(Agence agence, HotelPartenaireTarif hotelPartenaireTarif, Client client) {
+	private String generateResId(Agence agenceLoginRes, HotelPartenaireTarif hotelPartenaireTarif, Client client) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		String reservationId = agence.getIdentifiant()+client.getNom()+timestamp.getTime();
+		String reservationId = agenceLoginRes.getIdentifiant()+client.getNom()+timestamp.getTime();
 		return reservationId;
 	}
 	
-	private Propose getPropose(Propose[] allCombinations, String identifiantOffre) {
-		for (Propose propose : allCombinations) {
+	private Propose getPropose(List<Propose> allCombinationsList, String identifiantOffre) {
+		for (Propose propose : allCombinationsList) {
 			if (propose.getOffreId().equals(identifiantOffre)) {
 				return propose;
 			}
@@ -355,7 +346,6 @@ public class TestCli {
 				String chambreId = reader.readLine();
 				if (listChambreId.contains(chambreId)) {
 					this.displayImage(chambreId, proxy1);
-//					Thread.sleep(2000);
 				} else {
 					System.err.println("Chambre Id n'est pas correct.");
 				}
@@ -366,4 +356,22 @@ public class TestCli {
 		}
 		
 	}
+	
+//	private XMLGregorianCalendar calendarToXMLGregorianCalendar(Calendar cal) {
+//		XMLGregorianCalendar gDateFormatted = null;
+//		try {
+//			gDateFormatted =
+//					DatatypeFactory.newInstance().newXMLGregorianCalendar(
+//						cal.get(Calendar.YEAR),
+//						cal.get(Calendar.MONTH) + 1,
+//						cal.get(Calendar.DAY_OF_MONTH),
+//						cal.get(Calendar.HOUR_OF_DAY),
+//						cal.get(Calendar.MINUTE),
+//						cal.get(Calendar.SECOND), DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED);
+//		} catch (DatatypeConfigurationException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return gDateFormatted;
+//	}
 }

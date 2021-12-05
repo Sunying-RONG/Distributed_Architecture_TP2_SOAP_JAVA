@@ -1,6 +1,7 @@
 package service;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.jws.WebService;
 
@@ -24,7 +25,7 @@ public class HotelServiceWeb2Impl implements IHotelServiceWeb2 {
 	}
 	
 	@Override
-	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, Chambre[] chambreChoisi, 
+	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, 
 			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence) {
 		repoPlateformeImpl.reserve(hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
 	}

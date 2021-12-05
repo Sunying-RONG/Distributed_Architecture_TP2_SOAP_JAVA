@@ -57,22 +57,10 @@ public class Agence {
 	public void addHotelPartenaireTarif(Hotel hotel, double pourcentage) {
 		HotelPartenaireTarif newPartenaire = new HotelPartenaireTarif(hotel, pourcentage);
 		this.partenaire.add(newPartenaire);
-//		hotel.addAgence(this);
 	}
 	
-//	public HashMap<Hotel, ArrayList<ArrayList<Chambre>>> hotelChambrePropose(Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
-//		HashMap<Hotel, ArrayList<ArrayList<Chambre>>> allPropse = new HashMap<Hotel, ArrayList<ArrayList<Chambre>>>();
-//		for (Hotel hotel : this.hotelPartenaireTarif.keySet()) {
-//			ArrayList<ArrayList<Chambre>> groupPropose = hotel.chambresAllPropose(dateArrivee, dateDepart, nombrePerson);
-//			if (groupPropose.size() > 0) {
-//				allPropse.put(hotel, groupPropose);
-//			}
-//		}
-//		return allPropse;
-//	}
-	
 	// according to hotel's dispo date and nombrePerson
-	public Propose[] allProposes(Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
+	public List<Propose> allProposes(Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
 		List<Propose> allProposes = new ArrayList<>();
 		int i = 0;
 		for (HotelPartenaireTarif hotelPartenaireTarif : this.partenaire) {
@@ -83,13 +71,15 @@ public class Agence {
 				allProposes.add(unPropose);
 			}
 		}
-//		System.err.println("nombre de proposes: "+allProposes.size());
-		Propose[] allProposesArray = allProposes.toArray(new Propose[0]);
-		return allProposesArray;
+		return allProposes;
 	}
 	
-	public int getNombrePropse(Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
-		return this.allProposes(dateArrivee, dateDepart, nombrePerson).length;
+	// test
+	public List<Propose> allProposesTest(Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
+		List<Propose> allProposes = new ArrayList<>();
+		Propose unPropose = new Propose("offre1", this.getHotelPartenaireTarif().get(0), this.getHotelPartenaireTarif().get(0).getHotel().getChambreCollection());
+		allProposes.add(unPropose);
+		return allProposes;
 	}
 
 	
@@ -103,24 +93,6 @@ public class Agence {
 		prix = prix * propose.getHotelPartenaireTarif().getPourcentage();
 		return prix;
 	}
-
-//	public OffreMap allCombinations(Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
-//		HashMap<String, HotelChambresMap> allCombinations = new HashMap<String, HotelChambresMap>();
-//		HashMap<Hotel, ArrayList<ArrayList<Chambre>>> allPropose = this.hotelChambrePropose(dateArrivee, dateDepart, nombrePerson);
-//		int i = 0;
-//		for (Hotel hotel : allPropose.keySet()) {
-//			for (ArrayList<Chambre> propose : allPropose.get(hotel)) {
-//				i++;
-//				HotelChambresMap chaquePropose = new HotelChambresMap();
-//				HashMap<Hotel, ArrayList<Chambre>> hotelChambresPropo = new HashMap<Hotel, ArrayList<Chambre>>();
-//				hotelChambresPropo.put(hotel, propose);
-//				chaquePropose.setHotelChambresPropo(hotelChambresPropo);
-//				allCombinations.put("offre"+i, chaquePropose);
-//			}
-//		}
-//		OffreMap offreMap = new OffreMap(allCombinations);
-//		return offreMap;
-//	}
 
 	public void addReservation(Reservation res) {
 		this.listReservation.add(res);

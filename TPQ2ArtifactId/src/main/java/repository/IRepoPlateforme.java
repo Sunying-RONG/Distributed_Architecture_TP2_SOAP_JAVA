@@ -19,12 +19,10 @@ public interface IRepoPlateforme {
 	
 	String getAgenceIdentifiant(Agence agenceLogin);
 	
-	Propose[] getAllCombinations(Agence agenceLogin,
+	List<Propose> getAllCombinations(Agence agenceLogin,
 			Calendar dateArrivee, Calendar dateDepart, int nombrePerson);
 	
-	int getNombrePropse(Agence agenceLogin, Calendar dateArrivee, Calendar dateDepart, int nombrePerson);
-	
-	void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, Chambre[] chambreChoisi, Calendar dateArrivee,
+	void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, Calendar dateArrivee,
 			Calendar dateDepart, Client client, double prix, Agence agence);
 	
 	double prixChoisi(Propose propose, Agence agenceLogin, int days);
@@ -35,7 +33,7 @@ public interface IRepoPlateforme {
 
 	Client createClient(String nom, String prenom, CarteCredit carteCredit);
 	
-	HotelPartenaireTarif[] getAgencePartenaire(Agence agenceLogin);
+	List<HotelPartenaireTarif> getAgencePartenaire(Agence agenceLogin);
 	
-	List<Employee> getEmployees();
+//	List<String> getTest(Calendar cal1, Calendar cal2);
 }

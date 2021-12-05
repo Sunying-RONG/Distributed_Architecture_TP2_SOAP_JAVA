@@ -24,25 +24,10 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 	/* ATTRIBUTES */
 	private List<Hotel> hotelCollection = new ArrayList<>();
 	private List<Agence> agenceCollection = new ArrayList<>();
-//	private Agence agenceLogin;
-	private List<Employee> employees;
-
 	
 	/* CONSTRUCTORS */
 	public RepoPlateformeImpl() {
-		employees = new ArrayList<>();
-		employees.addAll(Arrays.asList(
-				new Employee(1, "Joe"),
-				new Employee(2, "Jane"),
-				new Employee(3, "Steve"),
-				new Employee(4, "Alice"),
-				new Employee(5, "Bob"),
-				new Employee(6, "Alicia"),
-				new Employee(7, "Tricia"),
-				new Employee(8, "Paul"),
-				new Employee(9, "Kevin"),
-				new Employee(10, "Julia")
-		));
+
 		// Hotel(1, "Campanile Montpellier Est Le Millénaire")
 		GPS gps1 = new GPS(43.60921999607663, 3.9145600068916337);
 		Adresse adresse1 = new Adresse("France", "Montpellier", 1083, "34000", "Henri Becquerel", AdresseType.rue, gps1);
@@ -130,18 +115,13 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 	}
 	
 	@Override
-	public Propose[] getAllCombinations(Agence agenceLogin,
+	public List<Propose> getAllCombinations(Agence agenceLogin,
 			Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
 		return agenceLogin.allProposes(dateArrivee, dateDepart, nombrePerson);
 	} 
 	
 	@Override
-	public int getNombrePropse(Agence agenceLogin, Calendar dateArrivee, Calendar dateDepart, int nombrePerson) {
-		return agenceLogin.getNombrePropse(dateArrivee, dateDepart, nombrePerson);
-	}
-	
-	@Override
-	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, Chambre[] chambreChoisi, 
+	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, 
 			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence) {
 		hotelPartenaireTarif.getHotel().reserve(hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
 	}
@@ -153,7 +133,9 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 	
 	@Override
 	public String getHotelNom(Propose propose) {
-		return propose.getHotelPartenaireTarif().getHotel().getNom();
+		Hotel hotel = propose.getHotelPartenaireTarif().getHotel();
+		String nom = hotel.getNom();
+		return nom;
 	}
 	
 	@Override
@@ -169,14 +151,25 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 	}
 	
 	@Override
-	public HotelPartenaireTarif[] getAgencePartenaire(Agence agenceLogin) {
+	public List<HotelPartenaireTarif> getAgencePartenaire(Agence agenceLogin) {
 		List<HotelPartenaireTarif> listP = agenceLogin.getHotelPartenaireTarif();
-		HotelPartenaireTarif[] p = listP.toArray(new HotelPartenaireTarif[0]);
-		return p;
+		return listP;
 	}
 
-	@Override
-	public List<Employee> getEmployees() {
-		return employees;
-	}
+//	@Override
+//	public List<String> getTest(Calendar cal1, Calendar cal2) {
+//		List<String> test = new ArrayList<>();
+//		Calendar cal = Calendar.getInstance(); 
+//		int year = 2022;
+//        int month = 2;
+//        int date = 27;
+//        cal.set(year, month, date);
+//		if (cal1.before(cal) && cal2.after(cal)) {
+//			test.add("between1");
+//			test.add("between2");
+//		} else {
+//			test.add("not between");
+//		}
+//		return test;
+//	}
 }

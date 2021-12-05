@@ -1,14 +1,16 @@
 
 package service1;
 
+import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Action;
+import javax.xml.ws.RequestWrapper;
+import javax.xml.ws.ResponseWrapper;
 
 
 /**
@@ -18,7 +20,6 @@ import javax.xml.ws.Action;
  * 
  */
 @WebService(name = "IHotelServiceWeb1", targetNamespace = "http://service/")
-@SOAPBinding(style = SOAPBinding.Style.RPC)
 @XmlSeeAlso({
     ObjectFactory.class
 })
@@ -33,12 +34,14 @@ public interface IHotelServiceWeb1 {
      *     returns service1.Agence
      */
     @WebMethod
-    @WebResult(partName = "return")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "agenceLogin", targetNamespace = "http://service/", className = "service1.AgenceLogin")
+    @ResponseWrapper(localName = "agenceLoginResponse", targetNamespace = "http://service/", className = "service1.AgenceLoginResponse")
     @Action(input = "http://service/IHotelServiceWeb1/agenceLoginRequest", output = "http://service/IHotelServiceWeb1/agenceLoginResponse")
     public Agence agenceLogin(
-        @WebParam(name = "arg0", partName = "arg0")
+        @WebParam(name = "arg0", targetNamespace = "")
         String arg0,
-        @WebParam(name = "arg1", partName = "arg1")
+        @WebParam(name = "arg1", targetNamespace = "")
         String arg1);
 
     /**
@@ -48,10 +51,12 @@ public interface IHotelServiceWeb1 {
      *     returns java.lang.String
      */
     @WebMethod
-    @WebResult(partName = "return")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getAgenceIdentifiant", targetNamespace = "http://service/", className = "service1.GetAgenceIdentifiant")
+    @ResponseWrapper(localName = "getAgenceIdentifiantResponse", targetNamespace = "http://service/", className = "service1.GetAgenceIdentifiantResponse")
     @Action(input = "http://service/IHotelServiceWeb1/getAgenceIdentifiantRequest", output = "http://service/IHotelServiceWeb1/getAgenceIdentifiantResponse")
     public String getAgenceIdentifiant(
-        @WebParam(name = "arg0", partName = "arg0")
+        @WebParam(name = "arg0", targetNamespace = "")
         Agence arg0);
 
     /**
@@ -61,41 +66,21 @@ public interface IHotelServiceWeb1 {
      * @param arg1
      * @param arg0
      * @return
-     *     returns service1.ProposeArray
+     *     returns java.util.List<service1.Propose>
      */
     @WebMethod
-    @WebResult(partName = "return")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getAllCombinations", targetNamespace = "http://service/", className = "service1.GetAllCombinations")
+    @ResponseWrapper(localName = "getAllCombinationsResponse", targetNamespace = "http://service/", className = "service1.GetAllCombinationsResponse")
     @Action(input = "http://service/IHotelServiceWeb1/getAllCombinationsRequest", output = "http://service/IHotelServiceWeb1/getAllCombinationsResponse")
-    public ProposeArray getAllCombinations(
-        @WebParam(name = "arg0", partName = "arg0")
+    public List<Propose> getAllCombinations(
+        @WebParam(name = "arg0", targetNamespace = "")
         Agence arg0,
-        @WebParam(name = "arg1", partName = "arg1")
+        @WebParam(name = "arg1", targetNamespace = "")
         XMLGregorianCalendar arg1,
-        @WebParam(name = "arg2", partName = "arg2")
+        @WebParam(name = "arg2", targetNamespace = "")
         XMLGregorianCalendar arg2,
-        @WebParam(name = "arg3", partName = "arg3")
-        int arg3);
-
-    /**
-     * 
-     * @param arg3
-     * @param arg2
-     * @param arg1
-     * @param arg0
-     * @return
-     *     returns int
-     */
-    @WebMethod
-    @WebResult(partName = "return")
-    @Action(input = "http://service/IHotelServiceWeb1/getNombrePropseRequest", output = "http://service/IHotelServiceWeb1/getNombrePropseResponse")
-    public int getNombrePropse(
-        @WebParam(name = "arg0", partName = "arg0")
-        Agence arg0,
-        @WebParam(name = "arg1", partName = "arg1")
-        XMLGregorianCalendar arg1,
-        @WebParam(name = "arg2", partName = "arg2")
-        XMLGregorianCalendar arg2,
-        @WebParam(name = "arg3", partName = "arg3")
+        @WebParam(name = "arg3", targetNamespace = "")
         int arg3);
 
     /**
@@ -107,14 +92,16 @@ public interface IHotelServiceWeb1 {
      *     returns double
      */
     @WebMethod
-    @WebResult(partName = "return")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "prixChoisi", targetNamespace = "http://service/", className = "service1.PrixChoisi")
+    @ResponseWrapper(localName = "prixChoisiResponse", targetNamespace = "http://service/", className = "service1.PrixChoisiResponse")
     @Action(input = "http://service/IHotelServiceWeb1/prixChoisiRequest", output = "http://service/IHotelServiceWeb1/prixChoisiResponse")
     public double prixChoisi(
-        @WebParam(name = "arg0", partName = "arg0")
+        @WebParam(name = "arg0", targetNamespace = "")
         Propose arg0,
-        @WebParam(name = "arg1", partName = "arg1")
+        @WebParam(name = "arg1", targetNamespace = "")
         Agence arg1,
-        @WebParam(name = "arg2", partName = "arg2")
+        @WebParam(name = "arg2", targetNamespace = "")
         int arg2);
 
     /**
@@ -124,10 +111,12 @@ public interface IHotelServiceWeb1 {
      *     returns java.lang.String
      */
     @WebMethod
-    @WebResult(partName = "return")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getHotelNom", targetNamespace = "http://service/", className = "service1.GetHotelNom")
+    @ResponseWrapper(localName = "getHotelNomResponse", targetNamespace = "http://service/", className = "service1.GetHotelNomResponse")
     @Action(input = "http://service/IHotelServiceWeb1/getHotelNomRequest", output = "http://service/IHotelServiceWeb1/getHotelNomResponse")
     public String getHotelNom(
-        @WebParam(name = "arg0", partName = "arg0")
+        @WebParam(name = "arg0", targetNamespace = "")
         Propose arg0);
 
     /**
@@ -137,23 +126,27 @@ public interface IHotelServiceWeb1 {
      *     returns byte[]
      */
     @WebMethod
-    @WebResult(partName = "return")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "downloadImage", targetNamespace = "http://service/", className = "service1.DownloadImage")
+    @ResponseWrapper(localName = "downloadImageResponse", targetNamespace = "http://service/", className = "service1.DownloadImageResponse")
     @Action(input = "http://service/IHotelServiceWeb1/downloadImageRequest", output = "http://service/IHotelServiceWeb1/downloadImageResponse")
     public byte[] downloadImage(
-        @WebParam(name = "arg0", partName = "arg0")
+        @WebParam(name = "arg0", targetNamespace = "")
         String arg0);
 
     /**
      * 
      * @param arg0
      * @return
-     *     returns service1.HotelPartenaireTarifArray
+     *     returns java.util.List<service1.HotelPartenaireTarif>
      */
     @WebMethod
-    @WebResult(partName = "return")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getAgencePartenaire", targetNamespace = "http://service/", className = "service1.GetAgencePartenaire")
+    @ResponseWrapper(localName = "getAgencePartenaireResponse", targetNamespace = "http://service/", className = "service1.GetAgencePartenaireResponse")
     @Action(input = "http://service/IHotelServiceWeb1/getAgencePartenaireRequest", output = "http://service/IHotelServiceWeb1/getAgencePartenaireResponse")
-    public HotelPartenaireTarifArray getAgencePartenaire(
-        @WebParam(name = "arg0", partName = "arg0")
+    public List<HotelPartenaireTarif> getAgencePartenaire(
+        @WebParam(name = "arg0", targetNamespace = "")
         Agence arg0);
 
 }

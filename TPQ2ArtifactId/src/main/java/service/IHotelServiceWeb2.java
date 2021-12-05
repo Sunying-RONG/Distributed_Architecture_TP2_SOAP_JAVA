@@ -1,6 +1,7 @@
 package service;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -17,7 +18,7 @@ public interface IHotelServiceWeb2 {
 	Agence agenceLoginRes(String identifiant, String mdp);
 	
 	@WebMethod
-	void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, Chambre[] chambreChoisi, 
+	void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, 
 			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence);
 	
 	@WebMethod

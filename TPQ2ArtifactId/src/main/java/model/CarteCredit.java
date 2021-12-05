@@ -12,7 +12,6 @@ public class CarteCredit {
 
 	public CarteCredit() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public CarteCredit(String carteNumero, String cvcCode, int expireMois, int expireAnnee) {

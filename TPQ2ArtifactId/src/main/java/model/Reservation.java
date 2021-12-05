@@ -1,13 +1,12 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class Reservation {
 	private HotelPartenaireTarif hotelPartenaireTarif;
 	private String reservationId;
-	private Chambre[] chambreReserveCollection;
+	private List<Chambre> chambreReserveCollection;
 	private Calendar dateArrivee;
 	private Calendar dateDepart;
 	private Client client;
@@ -16,10 +15,9 @@ public class Reservation {
 	
 	public Reservation() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Reservation(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, Chambre[] chambreChoisi, Calendar dateArrivee, Calendar dateDepart,
+	public Reservation(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, Calendar dateArrivee, Calendar dateDepart,
 			Client client, double prix, Agence agence) {
 		super();
 		this.hotelPartenaireTarif = hotelPartenaireTarif;
@@ -64,11 +62,11 @@ public class Reservation {
 		this.reservationId = reservationId;
 	}
 
-	public Chambre[] getChambreReserveCollection() {
+	public List<Chambre> getChambreReserveCollection() {
 		return chambreReserveCollection;
 	}
 
-	public void setChambreReserveCollection(Chambre[] chambreReserveCollection) {
+	public void setChambreReserveCollection(List<Chambre> chambreReserveCollection) {
 		this.chambreReserveCollection = chambreReserveCollection;
 	}
 

@@ -2,6 +2,9 @@ package ClientCLI;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+
+import ClientWSDL.Employee;
 
 public class ClientCli {
 
@@ -15,6 +18,11 @@ public class ClientCli {
 		ClientWSDL.EmployeeService proxy = 
 				EmployeeServiceImpl.getEmployeeServiceImplPort();	
 		System.out.print(proxy.count());
+		
+		List<Employee> employeeList = proxy.getEmployees();
+		for (Employee e : employeeList) {
+			System.out.print(e.getName());
+		}
 	}
 
 }

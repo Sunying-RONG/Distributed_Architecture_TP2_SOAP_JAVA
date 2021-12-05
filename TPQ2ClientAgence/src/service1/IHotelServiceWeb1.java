@@ -1,8 +1,6 @@
 
 package service1;
 
-import java.util.Calendar;
-
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -59,8 +57,8 @@ public interface IHotelServiceWeb1 {
     /**
      * 
      * @param arg3
-     * @param dateDepart
-     * @param dateArrivee
+     * @param arg2
+     * @param arg1
      * @param arg0
      * @return
      *     returns service1.ProposeArray
@@ -72,17 +70,17 @@ public interface IHotelServiceWeb1 {
         @WebParam(name = "arg0", partName = "arg0")
         Agence arg0,
         @WebParam(name = "arg1", partName = "arg1")
-        Calendar dateArrivee,
+        XMLGregorianCalendar arg1,
         @WebParam(name = "arg2", partName = "arg2")
-        Calendar dateDepart,
+        XMLGregorianCalendar arg2,
         @WebParam(name = "arg3", partName = "arg3")
         int arg3);
 
     /**
      * 
      * @param arg3
-     * @param dateDepart
-     * @param dateArrivee
+     * @param arg2
+     * @param arg1
      * @param arg0
      * @return
      *     returns int
@@ -94,9 +92,9 @@ public interface IHotelServiceWeb1 {
         @WebParam(name = "arg0", partName = "arg0")
         Agence arg0,
         @WebParam(name = "arg1", partName = "arg1")
-        Calendar dateArrivee,
+        XMLGregorianCalendar arg1,
         @WebParam(name = "arg2", partName = "arg2")
-        Calendar dateDepart,
+        XMLGregorianCalendar arg2,
         @WebParam(name = "arg3", partName = "arg3")
         int arg3);
 
@@ -144,5 +142,18 @@ public interface IHotelServiceWeb1 {
     public byte[] downloadImage(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0);
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns service1.HotelPartenaireTarifArray
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://service/IHotelServiceWeb1/getAgencePartenaireRequest", output = "http://service/IHotelServiceWeb1/getAgencePartenaireResponse")
+    public HotelPartenaireTarifArray getAgencePartenaire(
+        @WebParam(name = "arg0", partName = "arg0")
+        Agence arg0);
 
 }

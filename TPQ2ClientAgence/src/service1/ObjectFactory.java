@@ -54,6 +54,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link HotelPartenaireTarifArray }
+     * 
+     */
+    public HotelPartenaireTarifArray createHotelPartenaireTarifArray() {
+        return new HotelPartenaireTarifArray();
+    }
+
+    /**
      * Create an instance of {@link Hotel }
      * 
      */

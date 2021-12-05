@@ -17,10 +17,15 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import service1.Chambre;
 import service1.Lit;
 import service1.HotelPartenaireTarif;
+import service1.HotelPartenaireTarifArray;
 import service1.Propose;
 import service1.ProposeArray;
 import service1.Agence;
@@ -97,6 +102,12 @@ public class HotelServiceClientCLI {
 					}
 					System.out.println(proxy1.getAgenceIdentifiant(agenceLogin)+" login avec succès !");
 
+					HotelPartenaireTarifArray p =  proxy1.getAgencePartenaire(agenceLogin);
+					List<HotelPartenaireTarif> listP = p.getItem();
+					for (HotelPartenaireTarif hp : listP) {
+						System.out.println("partenaire : "+hp.getPourcentage());
+					}
+					
 					System.out.println("Date arrivée (dd/MM/yyyy): ");
 					inputStringToCalendar = new StringToCalendar(reader);
 					Calendar dateArrivee = (Calendar) inputStringToCalendar.process();
@@ -120,10 +131,10 @@ public class HotelServiceClientCLI {
 					System.out.println();
 					
 					ProposeArray allCombinations = 
-							proxy1.getAllCombinations(agenceLogin, dateArrivee, dateDepart, nombrePerson);
+							proxy1.getAllCombinations(agenceLogin, this.calendarToXMLGregorianCalendar(dateArrivee), this.calendarToXMLGregorianCalendar(dateDepart), nombrePerson);
 					List<Propose> allCombinationsList = allCombinations.getItem();
-					int nombrePropose = proxy1.getNombrePropse(agenceLogin, dateArrivee, dateDepart, nombrePerson);
-					if (nombrePropose == 0) {
+//					int nombrePropose = proxy1.getNombrePropse(agenceLogin, dateArrivee, dateDepart, nombrePerson);
+					if (allCombinationsList.size() == 0) {
 						System.err.println("Désolé, pas d'hôtel correspond. Veuillez réessayer.");
 						break;
 					} else {
@@ -198,15 +209,15 @@ public class HotelServiceClientCLI {
 						
 						HotelPartenaireTarif hotelPartenaireTarif = offreChoisi.getHotelPartenaireTarif();
 						List<Chambre> chambreChoisi = offreChoisi.getListChambre();
-						Chambre[] chambreChoisiArray = chambreChoisi.toArray(new Chambre[0]);
+//						Chambre[] chambreChoisiArray = chambreChoisi.toArray(new Chambre[0]);
 						double prixChoisi = proxy1.prixChoisi(offreChoisi, agenceLogin, days);
 						
 						String reservationId = this.generateResId(agenceLoginRes, hotelPartenaireTarif, client);
 						reservationId = reservationId.replaceAll("\\s+","");
 						
 						try {
-							proxy2.reserve(hotelPartenaireTarif, reservationId, chambreChoisiArray, 
-									dateArrivee, dateDepart, client, prixChoisi, agenceLoginRes);
+							proxy2.reserve(hotelPartenaireTarif, reservationId, chambreChoisi, 
+									this.calendarToXMLGregorianCalendar(dateArrivee), this.calendarToXMLGregorianCalendar(dateDepart), client, prixChoisi, agenceLoginRes);
 							System.out.println("Réservé avec succès. Votre numéro de réservation est "+reservationId);
 						} catch (Exception e) {
 							System.err.println("Désolé, il y a un problème avec la réservation. Veuillez réessayer.");
@@ -357,6 +368,24 @@ public class HotelServiceClientCLI {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private XMLGregorianCalendar calendarToXMLGregorianCalendar(Calendar cal) {
+		XMLGregorianCalendar gDateFormatted = null;
+		try {
+			gDateFormatted =
+					DatatypeFactory.newInstance().newXMLGregorianCalendar(
+						cal.get(Calendar.YEAR),
+						cal.get(Calendar.MONTH) + 1,
+						cal.get(Calendar.DAY_OF_MONTH),
+						cal.get(Calendar.HOUR_OF_DAY),
+						cal.get(Calendar.MINUTE),
+						cal.get(Calendar.SECOND), DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED);
+		} catch (DatatypeConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return gDateFormatted;
 	}
 	
 }

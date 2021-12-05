@@ -4,12 +4,15 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.jws.WebService;
 import javax.xml.ws.soap.MTOM;
 
 import model.Agence;
+import model.Employee;
+import model.HotelPartenaireTarif;
 import model.Propose;
 import repository.IRepoPlateforme;
 import repository.RepoPlateformeImpl;
@@ -64,5 +67,15 @@ public class HotelServiceWeb1Impl implements IHotelServiceWeb1 {
         }
         return null;
     }
+
+	@Override
+	public HotelPartenaireTarif[] getAgencePartenaire(Agence agenceLogin) {
+		return repoPlateformeImpl.getAgencePartenaire(agenceLogin);
+	}
 	
+	@Override
+	public List<Employee> getEmployees() {
+		return repoPlateformeImpl.getEmployees();
+	}
+
 }

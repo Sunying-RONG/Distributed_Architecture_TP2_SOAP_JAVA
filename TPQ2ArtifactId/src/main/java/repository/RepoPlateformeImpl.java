@@ -13,6 +13,7 @@ import model.Agence;
 import model.CarteCredit;
 import model.Chambre;
 import model.Client;
+import model.Employee;
 import model.GPS;
 import model.Propose;
 import model.Hotel;
@@ -24,9 +25,24 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 	private List<Hotel> hotelCollection = new ArrayList<>();
 	private List<Agence> agenceCollection = new ArrayList<>();
 //	private Agence agenceLogin;
+	private List<Employee> employees;
+
 	
 	/* CONSTRUCTORS */
 	public RepoPlateformeImpl() {
+		employees = new ArrayList<>();
+		employees.addAll(Arrays.asList(
+				new Employee(1, "Joe"),
+				new Employee(2, "Jane"),
+				new Employee(3, "Steve"),
+				new Employee(4, "Alice"),
+				new Employee(5, "Bob"),
+				new Employee(6, "Alicia"),
+				new Employee(7, "Tricia"),
+				new Employee(8, "Paul"),
+				new Employee(9, "Kevin"),
+				new Employee(10, "Julia")
+		));
 		// Hotel(1, "Campanile Montpellier Est Le Millénaire")
 		GPS gps1 = new GPS(43.60921999607663, 3.9145600068916337);
 		Adresse adresse1 = new Adresse("France", "Montpellier", 1083, "34000", "Henri Becquerel", AdresseType.rue, gps1);
@@ -152,4 +168,15 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 		return client;
 	}
 	
+	@Override
+	public HotelPartenaireTarif[] getAgencePartenaire(Agence agenceLogin) {
+		List<HotelPartenaireTarif> listP = agenceLogin.getHotelPartenaireTarif();
+		HotelPartenaireTarif[] p = listP.toArray(new HotelPartenaireTarif[0]);
+		return p;
+	}
+
+	@Override
+	public List<Employee> getEmployees() {
+		return employees;
+	}
 }

@@ -1,7 +1,6 @@
 
 package service2;
 
-import java.util.Calendar;
 import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -29,39 +28,6 @@ public interface IHotelServiceWeb2 {
 
     /**
      * 
-     * @param dateArrivee
-     * @param chambreChoisiArray
-     * @param arg5
-     * @param dateDepart
-     * @param arg1
-     * @param hotelPartenaireTarif
-     * @param arg7
-     * @param arg6
-     */
-    @WebMethod
-    @RequestWrapper(localName = "reserve", targetNamespace = "http://service/", className = "service2.Reserve")
-    @ResponseWrapper(localName = "reserveResponse", targetNamespace = "http://service/", className = "service2.ReserveResponse")
-    @Action(input = "http://service/IHotelServiceWeb2/reserveRequest", output = "http://service/IHotelServiceWeb2/reserveResponse")
-    public void reserve(
-        @WebParam(name = "arg0", targetNamespace = "")
-        service1.HotelPartenaireTarif hotelPartenaireTarif,
-        @WebParam(name = "arg1", targetNamespace = "")
-        String arg1,
-        @WebParam(name = "arg2", targetNamespace = "")
-        service1.Chambre[] chambreChoisiArray,
-        @WebParam(name = "arg3", targetNamespace = "")
-        Calendar dateArrivee,
-        @WebParam(name = "arg4", targetNamespace = "")
-        Calendar dateDepart,
-        @WebParam(name = "arg5", targetNamespace = "")
-        Client arg5,
-        @WebParam(name = "arg6", targetNamespace = "")
-        double arg6,
-        @WebParam(name = "arg7", targetNamespace = "")
-        Agence arg7);
-
-    /**
-     * 
      * @param arg3
      * @param arg2
      * @param arg1
@@ -83,6 +49,39 @@ public interface IHotelServiceWeb2 {
         int arg2,
         @WebParam(name = "arg3", targetNamespace = "")
         int arg3);
+
+    /**
+     * 
+     * @param arg3
+     * @param chambreChoisi
+     * @param arg5
+     * @param arg4
+     * @param arg1
+     * @param hotelPartenaireTarif
+     * @param arg7
+     * @param arg6
+     */
+    @WebMethod
+    @RequestWrapper(localName = "reserve", targetNamespace = "http://service/", className = "service2.Reserve")
+    @ResponseWrapper(localName = "reserveResponse", targetNamespace = "http://service/", className = "service2.ReserveResponse")
+    @Action(input = "http://service/IHotelServiceWeb2/reserveRequest", output = "http://service/IHotelServiceWeb2/reserveResponse")
+    public void reserve(
+        @WebParam(name = "arg0", targetNamespace = "")
+        service1.HotelPartenaireTarif hotelPartenaireTarif,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1,
+        @WebParam(name = "arg2", targetNamespace = "")
+        List<service1.Chambre> chambreChoisi,
+        @WebParam(name = "arg3", targetNamespace = "")
+        XMLGregorianCalendar arg3,
+        @WebParam(name = "arg4", targetNamespace = "")
+        XMLGregorianCalendar arg4,
+        @WebParam(name = "arg5", targetNamespace = "")
+        Client arg5,
+        @WebParam(name = "arg6", targetNamespace = "")
+        double arg6,
+        @WebParam(name = "arg7", targetNamespace = "")
+        Agence arg7);
 
     /**
      * 

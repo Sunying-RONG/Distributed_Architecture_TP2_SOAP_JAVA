@@ -1,6 +1,7 @@
 package repository;
 
 import java.util.Calendar;
+import java.util.List;
 
 import exceptions.HotelAlreadyExistsException;
 import exceptions.HotelNotFoundException;
@@ -8,6 +9,7 @@ import model.Agence;
 import model.CarteCredit;
 import model.Chambre;
 import model.Client;
+import model.Employee;
 import model.Propose;
 import model.HotelPartenaireTarif;
 
@@ -32,4 +34,8 @@ public interface IRepoPlateforme {
 	CarteCredit createCarteCredit(String carteNumero, String cvcCode, int expireMois, int expireAnnee);
 
 	Client createClient(String nom, String prenom, CarteCredit carteCredit);
+	
+	HotelPartenaireTarif[] getAgencePartenaire(Agence agenceLogin);
+	
+	List<Employee> getEmployees();
 }

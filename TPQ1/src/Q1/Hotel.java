@@ -110,6 +110,7 @@ public class Hotel {
 	// only propose one combination, if several combinations meet critieria
 	public ArrayList<Chambre> chambresPropose(Calendar dateArrivee, Calendar dateDepart, 
 			double min, double max, int nombrePerson) {
+		this.groupPropose.clear();
 		ArrayList<Chambre> chambresPropose = new ArrayList<>();
 		ArrayList<Chambre> chambresDispo = this.chambresDispoDansPeriode(dateArrivee, dateDepart);
 		int hotelCapacite = this.capaciteDeChambresDispo(chambresDispo);

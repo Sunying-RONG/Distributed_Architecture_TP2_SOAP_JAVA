@@ -29,6 +29,7 @@ import model.Client;
 import service.IHotelServiceWeb2;
 import model.Lit;
 import model.Propose;
+import model.Reservation;
 
 public class TestCli {
 	public static final String QUIT = "0";
@@ -200,12 +201,10 @@ public class TestCli {
 						
 						String reservationId = this.generateResId(agenceLoginRes, hotelPartenaireTarif, client);
 						reservationId = reservationId.replaceAll("\\s+","");
-						
+						Reservation res = proxy2.createReservation(hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prixChoisi, agenceLoginRes);
+						//hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence
 						try {
-//							proxy2.reserve(hotelPartenaireTarif, reservationId, chambreChoisi, 
-//									this.calendarToXMLGregorianCalendar(dateArrivee), this.calendarToXMLGregorianCalendar(dateDepart), client, prixChoisi, agenceLoginRes);
-							proxy2.reserve(hotelPartenaireTarif, reservationId, chambreChoisi, 
-									dateArrivee, dateDepart, client, prixChoisi, agenceLoginRes);
+							proxy2.reserve(hotelPartenaireTarif, res, agenceLoginRes);
 							System.out.println("Réservé avec succès. Votre numéro de réservation est "+reservationId);
 						} catch (Exception e) {
 							System.err.println("Désolé, il y a un problème avec la réservation. Veuillez réessayer.");

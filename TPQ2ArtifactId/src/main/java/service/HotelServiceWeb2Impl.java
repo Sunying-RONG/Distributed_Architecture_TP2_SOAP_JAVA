@@ -10,6 +10,7 @@ import model.Agence;
 import model.Chambre;
 import model.Client;
 import model.HotelPartenaireTarif;
+import model.Reservation;
 import repository.IRepoPlateforme;
 import repository.RepoPlateformeImpl;
 
@@ -25,9 +26,8 @@ public class HotelServiceWeb2Impl implements IHotelServiceWeb2 {
 	}
 	
 	@Override
-	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, 
-			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence) {
-		repoPlateformeImpl.reserve(hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
+	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, Reservation res, Agence agence) {
+		repoPlateformeImpl.reserve(hotelPartenaireTarif, res, agence);
 	}
 	
 	@Override
@@ -39,4 +39,12 @@ public class HotelServiceWeb2Impl implements IHotelServiceWeb2 {
 	public Client createClient(String nom, String prenom, CarteCredit carteCredit) {
 		return repoPlateformeImpl.createClient(nom, prenom, carteCredit);
 	}
+	
+	@Override
+	public Reservation createReservation(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, Calendar dateArrivee, Calendar dateDepart,
+			Client client, double prix, Agence agence) {
+		return repoPlateformeImpl.createReservation(hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart,
+			 client, prix, agence);
+	}
+
 }

@@ -22,13 +22,14 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import service1.Chambre;
+import service1.Client;
 import service1.Lit;
 import service1.HotelPartenaireTarif;
 import service1.Propose;
+import service1.Reservation;
 import service1.Agence;
 import service1.IHotelServiceWeb1;
 import service2.CarteCredit;
-import service2.Client;
 import service2.IHotelServiceWeb2;
 
 public class HotelServiceClientCLI {
@@ -94,12 +95,12 @@ public class HotelServiceClientCLI {
 //						System.out.println("partenaire : "+hp.getPourcentage());
 //					}
 					
-					System.out.println("Date arrivée (dd/MM/yyyy): ");
+					System.out.println("Date arrivée (dd/MM/yyyy) aujourd'hui ou après aujourd'hui : ");
 					inputStringToCalendar = new StringToCalendar(reader);
 					Calendar dateArrivee = (Calendar) inputStringToCalendar.process();
 					System.out.println();
 					
-					System.out.println("Date départ (dd/MM/yyyy): ");
+					System.out.println("Date départ (dd/MM/yyyy) après date arrivée : ");
 					inputStringToCalendar = new StringToCalendar(reader);
 					Calendar dateDepart = (Calendar) inputStringToCalendar.process();
 					while (!dateDepart.after(dateArrivee)) {
@@ -146,9 +147,9 @@ public class HotelServiceClientCLI {
 							offreChoisi = this.getPropose(allCombinations, identifiantOffre);
 						}
 						
-						System.out.println("Offre "+identifiantOffre+" est choisi.");
+						System.out.println(identifiantOffre+" est choisi.");
 						// Agence login
-						service2.Agence agenceLoginRes = this.loginRes(reader, proxy2);
+						Agence agenceLoginRes = this.loginRes(reader, proxy2);
 						while (agenceLoginRes == null || 
 								!agenceLoginRes.getIdentifiant().equals(agenceLogin.getIdentifiant()) ||
 								!agenceLoginRes.getMdp().equals(agenceLogin.getMdp())) {
@@ -193,10 +194,10 @@ public class HotelServiceClientCLI {
 						
 						String reservationId = this.generateResId(agenceLoginRes, hotelPartenaireTarif, client);
 						reservationId = reservationId.replaceAll("\\s+","");
-						
+						Reservation res = proxy2.createReservation(hotelPartenaireTarif, reservationId, chambreChoisi, this.calendarToXMLGregorianCalendar(dateArrivee), this.calendarToXMLGregorianCalendar(dateDepart), client, prixChoisi, agenceLoginRes);
+						//hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence
 						try {
-							proxy2.reserve(hotelPartenaireTarif, reservationId, chambreChoisi, 
-									this.calendarToXMLGregorianCalendar(dateArrivee), this.calendarToXMLGregorianCalendar(dateDepart), client, prixChoisi, agenceLoginRes);
+							proxy2.reserve(hotelPartenaireTarif, res, agenceLoginRes);
 							System.out.println("Réservé avec succès. Votre numéro de réservation est "+reservationId);
 						} catch (Exception e) {
 							System.err.println("Désolé, il y a un problème avec la réservation. Veuillez réessayer.");
@@ -279,7 +280,7 @@ public class HotelServiceClientCLI {
 		return proxy1.agenceLogin(identifiant, mdp);
 	}
 	
-	private service2.Agence loginRes(BufferedReader reader, IHotelServiceWeb2 proxy2) {
+	private Agence loginRes(BufferedReader reader, IHotelServiceWeb2 proxy2) {
 		String identifiant = null;
 		String mdp = null;
 		try {
@@ -299,7 +300,7 @@ public class HotelServiceClientCLI {
 		return proxy2.agenceLoginRes(identifiant, mdp);
 	}
 	
-	private String generateResId(service2.Agence agenceLoginRes, HotelPartenaireTarif hotelPartenaireTarif, Client client) {
+	private String generateResId(Agence agenceLoginRes, HotelPartenaireTarif hotelPartenaireTarif, Client client) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String reservationId = agenceLoginRes.getIdentifiant()+client.getNom()+timestamp.getTime();
 		return reservationId;

@@ -11,6 +11,7 @@ import model.CarteCredit;
 import model.Chambre;
 import model.Client;
 import model.HotelPartenaireTarif;
+import model.Reservation;
 
 @WebService
 public interface IHotelServiceWeb2 {
@@ -18,8 +19,7 @@ public interface IHotelServiceWeb2 {
 	Agence agenceLoginRes(String identifiant, String mdp);
 	
 	@WebMethod
-	void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, 
-			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence);
+	void reserve(HotelPartenaireTarif hotelPartenaireTarif, Reservation res, Agence agence);
 	
 	@WebMethod
 	CarteCredit createCarteCredit(String carteNumero, String cvcCode, int expireMois, int expireAnnee);
@@ -27,6 +27,8 @@ public interface IHotelServiceWeb2 {
 	@WebMethod
 	Client createClient(String nom, String prenom, CarteCredit carteCredit);
 	
-
+	@WebMethod
+	Reservation createReservation(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, Calendar dateArrivee, Calendar dateDepart,
+			Client client, double prix, Agence agence);
 	
 }

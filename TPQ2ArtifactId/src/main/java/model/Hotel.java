@@ -109,9 +109,7 @@ public class Hotel {
 		return hotelCapacite;
 	}
 	
-	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, 
-			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence) {
-		Reservation res = new Reservation(hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
+	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, Reservation res, Agence agence) {
 		this.reservCollection.add(res);
 		agence.addReservation(res);
 	}

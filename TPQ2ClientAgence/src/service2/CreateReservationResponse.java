@@ -6,20 +6,20 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import service1.Client;
+import service1.Reservation;
 
 
 /**
- * <p>Java class for createClientResponse complex type.
+ * <p>Java class for createReservationResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="createClientResponse">
+ * &lt;complexType name="createReservationResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="return" type="{http://service/}client" minOccurs="0"/>
+ *         &lt;element name="return" type="{http://service/}reservation" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,23 +29,23 @@ import service1.Client;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "createClientResponse", propOrder = {
+@XmlType(name = "createReservationResponse", propOrder = {
     "_return"
 })
-public class CreateClientResponse {
+public class CreateReservationResponse {
 
     @XmlElement(name = "return")
-    protected Client _return;
+    protected Reservation _return;
 
     /**
      * Gets the value of the return property.
      * 
      * @return
      *     possible object is
-     *     {@link Client }
+     *     {@link Reservation }
      *     
      */
-    public Client getReturn() {
+    public Reservation getReturn() {
         return _return;
     }
 
@@ -54,10 +54,10 @@ public class CreateClientResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link Client }
+     *     {@link Reservation }
      *     
      */
-    public void setReturn(Client value) {
+    public void setReturn(Reservation value) {
         this._return = value;
     }
 

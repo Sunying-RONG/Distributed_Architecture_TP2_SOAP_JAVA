@@ -11,6 +11,7 @@ import model.Chambre;
 import model.Client;
 import model.Employee;
 import model.Propose;
+import model.Reservation;
 import model.HotelPartenaireTarif;
 import model.Lit;
 
@@ -23,8 +24,7 @@ public interface IRepoPlateforme {
 	List<Propose> getAllCombinations(Agence agenceLogin,
 			Calendar dateArrivee, Calendar dateDepart, int nombrePerson);
 	
-	void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, Calendar dateArrivee,
-			Calendar dateDepart, Client client, double prix, Agence agence);
+	void reserve(HotelPartenaireTarif hotelPartenaireTarif, Reservation res, Agence agence);
 	
 	double prixChoisi(Propose propose, Agence agenceLogin, int days);
 	
@@ -37,6 +37,9 @@ public interface IRepoPlateforme {
 	List<HotelPartenaireTarif> getAgencePartenaire(Agence agenceLogin);
 	
 	String getLitDesc(Lit lit);
+	
+	Reservation createReservation(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, Calendar dateArrivee, Calendar dateDepart,
+			Client client, double prix, Agence agence);
 	
 //	List<String> getTest(Calendar cal1, Calendar cal2);
 }

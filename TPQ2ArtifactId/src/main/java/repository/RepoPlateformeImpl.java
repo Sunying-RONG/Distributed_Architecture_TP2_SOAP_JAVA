@@ -16,6 +16,7 @@ import model.Client;
 import model.Employee;
 import model.GPS;
 import model.Propose;
+import model.Reservation;
 import model.Hotel;
 import model.HotelPartenaireTarif;
 import model.Lit;
@@ -121,9 +122,9 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 	} 
 	
 	@Override
-	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, 
-			Calendar dateArrivee, Calendar dateDepart, Client client, double prix, Agence agence) {
-		hotelPartenaireTarif.getHotel().reserve(hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart, client, prix, agence);
+	public void reserve(HotelPartenaireTarif hotelPartenaireTarif, Reservation res, Agence agence) {
+		Hotel hotel = hotelPartenaireTarif.getHotel();
+		hotel.reserve(hotelPartenaireTarif, res, agence);
 	}
 
 	@Override
@@ -159,6 +160,14 @@ public class RepoPlateformeImpl implements IRepoPlateforme {
 	@Override
 	public String getLitDesc(Lit lit) {
 		return lit.toString();
+	}
+	
+	@Override
+	public Reservation createReservation(HotelPartenaireTarif hotelPartenaireTarif, String reservationId, List<Chambre> chambreChoisi, Calendar dateArrivee, Calendar dateDepart,
+			Client client, double prix, Agence agence) {
+		Reservation res = new Reservation(hotelPartenaireTarif, reservationId, chambreChoisi, dateArrivee, dateDepart,
+			 client, prix, agence);
+		return res;
 	}
 	
 //	@Override

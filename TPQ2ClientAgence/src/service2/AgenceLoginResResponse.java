@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import service1.Agence;
+
 
 /**
  * <p>Java class for agenceLoginResResponse complex type.

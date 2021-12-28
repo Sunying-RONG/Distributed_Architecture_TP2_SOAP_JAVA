@@ -44,7 +44,6 @@ public class CLI {
 		builder.append(QUIT+". Quit.");
 		builder.append("\n1. Afficher tous les hotels.");
 		builder.append("\n2. Afficher disponibilité de tous les hotels.");
-		builder.append("\n3. Faire une réservation.");
 		System.out.println(builder);
 	}
 	
@@ -56,7 +55,7 @@ public class CLI {
 					hotelCollection.getHotelCollection()
 					.forEach(e -> displayHotel(e));
 					break;
-				case "3":
+				case "2":
 					System.out.println("Ville: ");
 					String ville = reader.readLine();
 					System.out.println();
@@ -196,7 +195,7 @@ public class CLI {
 			String descLit = "";
 			int nombreLits = 0;
 			for (Chambre c : hotelChambrePropose.get(hotel)) {
-				System.err.println(c.toString());
+//				System.err.println(c.toString());
 				for (Lit lit : c.getLitCollection()) {
 					descLit = descLit + lit.toString() + "\n";
 					nombreLits++;

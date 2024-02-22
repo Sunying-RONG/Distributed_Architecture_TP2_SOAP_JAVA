@@ -1,7 +1,24 @@
 # TP2_SOAP_JAVA
-cours HAI704I Architectures logicielles distribuées
+cours HAI704I Architectures logicielles distribuées - une pratique de SOAP  
 
-Pour lancer/exécuter le projet:  
+La conception de la solution:  
+![alt text]()
+
+### Fonctionnalité en résumé :
+Données créées dans RepoPlateformeImpl, comme base de données.  
+
+D'abord, Agence login avec identifiant et mot de passe. Dans RepoPlateformeImpl, il y a une liste d'agences pour identifier agence qui login.  
+Puis Agence peut rechercher les propositions. Dans Class Agence, il existe une liste de HotelPartenaireTarif qui comprend Hotel et le pourcentage de prix.  
+Les Propositions qui comprend offreId, HotelPartenaireTarif, liste de chambres proposé, sont construites par chaque hôtel qui est le partenaire de cette agence. Enfant, retourner les listes de Proposition.  
+
+Agence login encore une fois sur Service 2, pour utiliser les services de réservation etc de Service 2, doit être la même agence qui recherche les propositions dans Service 1, pour profiter son pourcentage de prix.  
+Puis, demander les informations de client, créer objet carteCredit et client, et faire la réservation. Créer un objet de Réservation et ajouter dans la liste de réservation de l'hôtel, et aussi ajouter dans l'agence, pour hôtel et agence accéder des informations de réservation facilement.  
+
+Sur côté Serveur, il y a tous les Classes, images, base de données, et les deux services. Serveur publier les services sur url ("http://localhost:8080/serviceweb1" et "http://localhost:8080/serviceweb2").  
+
+Sur côté Client, il y a le programme pour toutes les opérations. Client découvre les services par les urls et récupère les proxys sur lesquels appeler les méthodes de Serveur. Les requêtes et les réponses sont en format XML.
+
+### Pour lancer/exécuter le projet:  
 Ouvrir le lien ci-dessus dans le navigateur.   
 Télécharger le code (main branch) sur local par git clone.  
 Le nom du dossier est "TP2_SOAP_JAVA".  

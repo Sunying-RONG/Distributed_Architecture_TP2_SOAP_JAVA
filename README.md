@@ -2,7 +2,7 @@
 cours HAI704I Architectures logicielles distribuées - une pratique de SOAP  
 
 La conception de la solution:  
-![alt text]()
+![alt text](https://github.com/Sunying-RONG/Distributed_Architecture_TP2_SOAP_JAVA/blob/main/TPUMLDISTRIBUE.jpg)
 
 ### Fonctionnalité en résumé :
 Données créées dans RepoPlateformeImpl, comme base de données.  
